@@ -1,0 +1,54 @@
+goal_id,client_id,goal_text,baseline,target,created_date,target_date,status
+G0001,C001,Manage panic attacks,2-3 panic attacks per week,Panic attacks reduced to under 1 per month,2026-01-22,2026-03-19,active
+G0002,C001,Improve sleep consistency,"Sleeping 4-5 hours, irregular schedule",Sleeping 7 hours on a consistent schedule,2026-01-26,2026-03-09,active
+G0003,C002,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-02-19,2026-04-16,active
+G0004,C003,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-01-13,2026-03-10,active
+G0005,C004,Process grief around a loss,"Overwhelmed by grief, avoiding routine",Able to engage in daily routine most days,2026-02-09,2026-04-06,active
+G0006,C005,Process grief around a loss,"Overwhelmed by grief, avoiding routine",Able to engage in daily routine most days,2026-02-19,2026-05-14,active
+G0007,C005,Improve study-life balance,"Studying till 2am most nights, no breaks",Fixed study hours with evening downtime,2026-02-21,2026-05-16,active
+G0008,C006,Reduce daily low mood,"Low mood most days, low motivation",Low mood fewer than 2 days a week,2026-02-13,2026-04-24,active
+G0009,C007,Reduce daily low mood,"Low mood most days, low motivation",Low mood fewer than 2 days a week,2026-02-28,2026-04-25,achieved
+G0010,C008,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-01-25,2026-03-08,active
+G0011,C009,Improve study-life balance,"Studying till 2am most nights, no breaks",Fixed study hours with evening downtime,2026-01-17,2026-03-14,needs revision
+G0012,C009,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-01-15,2026-04-09,active
+G0013,C010,Build one supportive friendship,No close friends on campus,At least one person to talk to weekly,2026-03-06,2026-05-29,active
+G0014,C011,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-02-25,2026-04-22,active
+G0015,C012,Process grief around a loss,"Overwhelmed by grief, avoiding routine",Able to engage in daily routine most days,2026-01-14,2026-04-08,active
+G0016,C013,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-02-15,2026-03-29,achieved
+G0017,C014,Improve study-life balance,"Studying till 2am most nights, no breaks",Fixed study hours with evening downtime,2026-01-11,2026-03-08,active
+G0018,C015,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-01-13,2026-04-07,active
+G0019,C016,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-01-25,2026-03-08,active
+G0020,C017,Improve sleep consistency,"Sleeping 4-5 hours, irregular schedule",Sleeping 7 hours on a consistent schedule,2026-01-17,2026-02-28,active
+G0021,C018,Reduce daily low mood,"Low mood most days, low motivation",Low mood fewer than 2 days a week,2026-01-27,2026-04-21,active
+G0022,C018,Improve sleep consistency,"Sleeping 4-5 hours, irregular schedule",Sleeping 7 hours on a consistent schedule,2026-01-27,2026-03-24,active
+G0023,C019,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-02-13,2026-03-27,active
+G0024,C019,Improve sleep consistency,"Sleeping 4-5 hours, irregular schedule",Sleeping 7 hours on a consistent schedule,2026-02-13,2026-04-24,active
+G0025,C020,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-01-27,2026-04-21,active
+G0026,C020,Build one supportive friendship,No close friends on campus,At least one person to talk to weekly,2026-01-25,2026-03-22,active
+G0027,C021,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-03-05,2026-04-16,active
+G0028,C022,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-03-03,2026-05-26,active
+G0029,C022,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-03-03,2026-04-28,active
+G0030,C023,Improve sleep consistency,"Sleeping 4-5 hours, irregular schedule",Sleeping 7 hours on a consistent schedule,2026-01-21,2026-03-04,active
+G0031,C024,Reduce daily low mood,"Low mood most days, low motivation",Low mood fewer than 2 days a week,2026-02-04,2026-03-18,active
+G0032,C025,Reduce daily low mood,"Low mood most days, low motivation",Low mood fewer than 2 days a week,2026-01-26,2026-03-09,active
+G0033,C025,Manage panic attacks,2-3 panic attacks per week,Panic attacks reduced to under 1 per month,2026-01-26,2026-03-09,active
+G0034,C026,Improve study-life balance,"Studying till 2am most nights, no breaks",Fixed study hours with evening downtime,2026-02-15,2026-04-12,active
+G0035,C027,Improve study-life balance,"Studying till 2am most nights, no breaks",Fixed study hours with evening downtime,2026-01-31,2026-04-11,active
+G0036,C028,Manage panic attacks,2-3 panic attacks per week,Panic attacks reduced to under 1 per month,2026-02-11,2026-04-22,active
+G0037,C029,Improve sleep consistency,"Sleeping 4-5 hours, irregular schedule",Sleeping 7 hours on a consistent schedule,2026-01-17,2026-02-28,active
+G0038,C029,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-01-14,2026-03-11,active
+G0039,C030,Build one supportive friendship,No close friends on campus,At least one person to talk to weekly,2026-02-05,2026-03-19,active
+G0040,C031,Improve study-life balance,"Studying till 2am most nights, no breaks",Fixed study hours with evening downtime,2026-02-06,2026-05-01,active
+G0041,C031,Build one supportive friendship,No close friends on campus,At least one person to talk to weekly,2026-02-09,2026-04-20,active
+G0042,C032,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-01-11,2026-03-22,active
+G0043,C033,Improve sleep consistency,"Sleeping 4-5 hours, irregular schedule",Sleeping 7 hours on a consistent schedule,2026-02-26,2026-04-09,active
+G0044,C033,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-02-24,2026-04-21,active
+G0045,C034,Reduce daily low mood,"Low mood most days, low motivation",Low mood fewer than 2 days a week,2026-01-16,2026-03-13,active
+G0046,C035,Manage panic attacks,2-3 panic attacks per week,Panic attacks reduced to under 1 per month,2026-01-11,2026-04-05,active
+G0047,C036,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-02-08,2026-05-03,active
+G0048,C037,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-03-03,2026-04-28,active
+G0049,C037,Increase self-esteem,Frequent self-critical thoughts,"Fewer self-critical thoughts, more self-compassion",2026-03-03,2026-04-28,needs revision
+G0050,C038,Process grief around a loss,"Overwhelmed by grief, avoiding routine",Able to engage in daily routine most days,2026-01-30,2026-03-13,active
+G0051,C038,Manage panic attacks,2-3 panic attacks per week,Panic attacks reduced to under 1 per month,2026-01-30,2026-03-27,active
+G0052,C039,Improve study-life balance,"Studying till 2am most nights, no breaks",Fixed study hours with evening downtime,2026-01-11,2026-03-08,active
+G0053,C040,Reduce exam-related anxiety,Panic before every exam (8/10 anxiety),Manageable anxiety (3/10) before exams,2026-02-01,2026-04-12,active

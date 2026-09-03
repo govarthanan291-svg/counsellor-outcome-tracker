@@ -1,0 +1,41 @@
+client_id,client_name,age,urgency_level,presenting_concern,intake_date
+C001,Danielle J.,19,low,sleep difficulties,2026-01-21
+C002,Joshua W.,21,low,academic stress,2026-02-18
+C003,Jill R.,26,low,burnout,2026-01-08
+C004,Patricia M.,18,low,low mood,2026-02-07
+C005,Robert J.,18,moderate,self-esteem issues,2026-02-16
+C006,Jeffery W.,26,low,panic attacks,2026-02-12
+C007,Anthony G.,22,moderate,exam anxiety,2026-02-23
+C008,Debra G.,20,moderate,relationship conflict,2026-01-23
+C009,Jeffrey L.,20,low,relationship conflict,2026-01-12
+C010,Lisa S.,19,low,relationship conflict,2026-03-01
+C011,Linda W.,23,moderate,exam anxiety,2026-02-21
+C012,Matthew M.,25,moderate,burnout,2026-01-11
+C013,Susan R.,26,low,grief,2026-02-14
+C014,Christopher D.,23,moderate,self-esteem issues,2026-01-10
+C015,Melanie M.,18,moderate,sleep difficulties,2026-01-11
+C016,Lindsay B.,21,high,burnout,2026-01-23
+C017,Amanda D.,25,moderate,relationship conflict,2026-01-16
+C018,Nicholas A.,23,low,grief,2026-01-23
+C019,Maria M.,19,moderate,social isolation,2026-02-09
+C020,Michelle R.,21,low,burnout,2026-01-23
+C021,Janet W.,26,low,relationship conflict,2026-02-28
+C022,Jeremy R.,18,low,exam anxiety,2026-02-26
+C023,Christopher H.,23,low,academic stress,2026-01-19
+C024,Craig R.,23,low,panic attacks,2026-01-31
+C025,Cynthia D.,25,low,social isolation,2026-01-21
+C026,Mitchell C.,26,moderate,self-esteem issues,2026-02-12
+C027,Joseph Z.,24,high,burnout,2026-01-29
+C028,Deborah L.,21,high,social isolation,2026-02-07
+C029,George D.,25,low,exam anxiety,2026-01-13
+C030,Frank G.,20,moderate,grief,2026-02-02
+C031,Veronica B.,19,low,time management struggles,2026-02-04
+C032,Angela C.,26,low,homesickness,2026-01-06
+C033,Megan P.,19,moderate,homesickness,2026-02-23
+C034,Jeremy J.,22,moderate,relationship conflict,2026-01-13
+C035,Leslie A.,22,low,panic attacks,2026-01-06
+C036,Jason H.,22,high,social isolation,2026-02-07
+C037,Nancy E.,19,high,sleep difficulties,2026-02-28
+C038,Diana F.,26,moderate,social isolation,2026-01-29
+C039,Robin E.,20,moderate,homesickness,2026-01-06
+C040,Joseph W.,23,low,academic stress,2026-01-29
