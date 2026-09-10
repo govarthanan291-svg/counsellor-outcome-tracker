@@ -20,7 +20,8 @@ import streamlit as st
 
 from mismatch_detector import MismatchDetector
 
-DATA_DIR = os.path.join("..", "synthetic_data")
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_DIR = os.path.join(SCRIPT_DIR, "..", "synthetic_data")
 
 st.set_page_config(page_title="Outcome Tracker", layout="wide", initial_sidebar_state="collapsed")
 
