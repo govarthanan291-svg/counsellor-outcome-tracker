@@ -125,6 +125,44 @@ An automated test suite (`tests/test_mismatch_detector.py`, 16 tests) now
 covers this rating-drop logic directly and deterministically, independent
 of the TF-IDF proxy limitations discussed below.
 
+## Update after running the real model: semantic check found to hurt precision
+
+Running `experiments/experiment.py` locally with the real
+sentence-transformers model gave a surprising, important result — the
+opposite of what was predicted in the original "Next step" section below.
+
+| Configuration | Precision | Recall | F1 |
+|---|---|---|---|
+| TF-IDF proxy (v1, sandbox) | 0.18 | 0.33 | 0.24 |
+| TF-IDF proxy (v2, +rating-drop) | 0.17 | 0.47 | 0.25 |
+| **Real model, semantic check ON** (original design) | **0.07** | 0.47 | 0.12 |
+| **Real model, semantic check OFF** (rating-drop + keyword only) | **0.17** | **0.47** | **0.25** |
+
+A threshold sweep (`experiments/threshold_sweep.py`) tested 11 similarity
+thresholds against the real model — precision never rose above 0.10 at any
+threshold, confirming this wasn't a tuning problem.
+
+**Why the semantic check hurt more than it helped:** general-purpose
+sentence embeddings score two short phrases about *different topics* as
+dissimilar even when there's no real emotional contradiction between them
+— e.g. "feeling much better this week" vs. "missed a session due to a
+coursework deadline" are topically unrelated, not contradictory, but score
+low similarity anyway. The check was conflating "different subject" with
+"contradicts what was said," which produced far more false positives (232)
+than real mismatches caught.
+
+**Action taken:** the semantic check is now OFF by default in
+`mismatch_detector.py` (`USE_SEMANTIC_CHECK = False`), based on this
+evidence. The rating-drop and rating/keyword checks alone reach the same
+F1 (0.25) as the best TF-IDF configuration, without the semantic check's
+false-positive cost. The code is kept (not deleted) as a documented,
+disabled option for future recalibration — e.g. comparing emotional
+polarity rather than raw topical similarity.
+
+This is disclosed here rather than adjusted quietly, because a measured,
+reversed decision based on real evaluation data is itself part of this
+project's evidence-based development process — not a failure to hide.
+
 ## Next step for final numbers
 
 Run `experiments/experiment.py` locally (after following

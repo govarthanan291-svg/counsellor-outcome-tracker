@@ -48,10 +48,10 @@ class TestSemanticMismatch:
         assert score == 1.0
 
     def test_low_similarity_flags(self, detector):
-        with patch("mismatch_detector.util.cos_sim", return_value=MagicMock(__float__=lambda s: 0.1)):
+        with patch("mismatch_detector.util.cos_sim", return_value=MagicMock(__float__=lambda s: 0.05)):
             flagged, score = detector._semantic_mismatch("feeling great", "relapse into old habits")
         assert flagged is True
-        assert score == pytest.approx(0.1)
+        assert score == pytest.approx(0.05)
 
     def test_high_similarity_does_not_flag(self, detector):
         with patch("mismatch_detector.util.cos_sim", return_value=MagicMock(__float__=lambda s: 0.9)):
@@ -132,14 +132,18 @@ class TestCheckSessionIntegration:
         assert result.severity in ("medium", "high")
 
     def test_two_agreeing_signals_are_high_severity(self, detector):
-        with patch("mismatch_detector.util.cos_sim", return_value=MagicMock(__float__=lambda s: 0.05)):
-            session = {
-                "session_id": "S3", "self_reported_rating": 8,
-                "self_reported_text": "feeling much better",
-                "barriers": "relapse into old coping habits under stress",
-            }
-            result = detector.check_session(session, rating_history=[8, 8, 8])
-        # semantic mismatch + rating/text mismatch both fire here
+        # Note: the semantic check is OFF by default (see change log in
+        # mismatch_detector.py -- measured to hurt precision on the real
+        # model). This test forces both the rating/keyword check AND the
+        # rating-drop check to fire together, since those are the two
+        # signals actually combined by default now. Needs rating >= 7 (for
+        # the keyword check) that is ALSO a >=3 point drop from history.
+        session = {
+            "session_id": "S3", "self_reported_rating": 7,
+            "self_reported_text": "feeling much better",
+            "barriers": "relapse into old coping habits under stress",
+        }
+        result = detector.check_session(session, rating_history=[10, 10, 10])
         assert result.is_flagged is True
         assert result.severity == "high"
         assert len(result.reasons) >= 2

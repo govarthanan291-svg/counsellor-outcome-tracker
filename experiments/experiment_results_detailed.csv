@@ -1,0 +1,294 @@
+session_id,goal_id,client_id,session_date,self_reported_rating,self_reported_text,barriers,agreed_adjustment,flagged_mismatch_ground_truth,predicted_flag,severity
+S00001,G0001,C001,2026-01-30,4,about the same as last week,family obligations limited practice time,"no adjustment needed, continuing as planned",False,True,medium
+S00002,G0001,C001,2026-02-08,9,made real progress on this,difficulty applying strategies during actual exam week,shifted target date by two weeks,False,True,medium
+S00003,G0001,C001,2026-02-15,8,feeling much better this week,relapse into old coping habits under stress,"no adjustment needed, continuing as planned",False,True,high
+S00004,G0002,C001,2026-02-02,5,mixed week overall,family obligations limited practice time,involved a peer support group as additional support,False,True,medium
+S00005,G0002,C001,2026-02-11,4,some ups and downs,financial stress distracted from goal work,reduced session focus to one barrier at a time,False,True,medium
+S00006,G0002,C001,2026-02-18,4,mixed week overall,difficulty applying strategies during actual exam week,involved a peer support group as additional support,False,True,medium
+S00007,G0002,C001,2026-02-24,9,things are improving steadily,financial stress distracted from goal work,involved a peer support group as additional support,False,True,medium
+S00008,G0002,C001,2026-03-06,5,about the same as last week,family obligations limited practice time,reduced session focus to one barrier at a time,False,True,medium
+S00009,G0002,C001,2026-03-14,2,barely managed to cope,"part-time job hours increased, less time to rest","no adjustment needed, continuing as planned",False,True,high
+S00010,G0003,C002,2026-02-28,7,feeling much better this week,"part-time job hours increased, less time to rest",introduced a daily check-in journal,False,True,medium
+S00011,G0003,C002,2026-03-09,2,barely managed to cope,difficulty applying strategies during actual exam week,"no adjustment needed, continuing as planned",False,True,high
+S00012,G0003,C002,2026-03-17,7,feeling much better this week,roommate conflict added new stress,reduced session focus to one barrier at a time,False,True,high
+S00013,G0003,C002,2026-03-25,6,some ups and downs,no barriers this session,shifted target date by two weeks,False,False,none
+S00014,G0003,C002,2026-04-03,7,made real progress on this,physical illness disrupted routine,reduced session focus to one barrier at a time,False,True,high
+S00015,G0004,C003,2026-01-21,5,some ups and downs,physical illness disrupted routine,"no adjustment needed, continuing as planned",False,True,medium
+S00016,G0004,C003,2026-01-30,7,had a genuinely good week,relapse into old coping habits under stress,added a grounding technique for acute moments,False,True,high
+S00017,G0004,C003,2026-02-09,5,about the same as last week,roommate conflict added new stress,introduced a daily check-in journal,False,True,medium
+S00018,G0005,C004,2026-02-15,2,felt worse than before,physical illness disrupted routine,added a grounding technique for acute moments,False,True,medium
+S00019,G0005,C004,2026-02-25,4,mixed week overall,"part-time job hours increased, less time to rest",revised goal to be more realistic given workload,False,True,medium
+S00020,G0005,C004,2026-03-04,7,feeling much better this week,family obligations limited practice time,involved a peer support group as additional support,False,True,medium
+S00021,G0005,C004,2026-03-14,6,mixed week overall,difficulty applying strategies during actual exam week,added a grounding technique for acute moments,False,True,medium
+S00022,G0006,C005,2026-03-01,9,things are improving steadily,reluctance to open up about the real issue,involved a peer support group as additional support,False,True,high
+S00023,G0006,C005,2026-03-11,6,about the same as last week,reluctance to open up about the real issue,revised goal to be more realistic given workload,False,True,high
+S00024,G0006,C005,2026-03-18,8,things are improving steadily,no barriers this session,revised goal to be more realistic given workload,False,False,none
+S00025,G0006,C005,2026-03-26,6,mixed week overall,roommate conflict added new stress,introduced a daily check-in journal,False,True,medium
+S00026,G0006,C005,2026-04-03,9,feeling much better this week,relapse into old coping habits under stress,shifted target date by two weeks,False,True,high
+S00027,G0006,C005,2026-04-10,7,feeling much better this week,"part-time job hours increased, less time to rest",involved a peer support group as additional support,False,True,medium
+S00028,G0007,C005,2026-03-02,3,felt worse than before,"part-time job hours increased, less time to rest",broke the goal into smaller weekly steps,False,True,medium
+S00029,G0007,C005,2026-03-12,6,about the same as last week,financial stress distracted from goal work,reduced session focus to one barrier at a time,False,True,medium
+S00030,G0007,C005,2026-03-21,6,mixed week overall,no barriers this session,introduced a daily check-in journal,False,False,none
+S00031,G0007,C005,2026-03-29,6,about the same as last week,"part-time job hours increased, less time to rest","no adjustment needed, continuing as planned",False,True,medium
+S00032,G0007,C005,2026-04-07,7,had a genuinely good week,relapse into old coping habits under stress,broke the goal into smaller weekly steps,False,True,high
+S00033,G0007,C005,2026-04-17,7,"feeling much better this week, though honestly still struggling most days",reluctance to open up about the real issue,involved a peer support group as additional support,True,True,high
+S00034,G0008,C006,2026-02-19,5,some ups and downs,difficulty applying strategies during actual exam week,revised goal to be more realistic given workload,False,True,medium
+S00035,G0008,C006,2026-02-28,5,some ups and downs,roommate conflict added new stress,added a grounding technique for acute moments,False,True,medium
+S00036,G0008,C006,2026-03-10,3,felt worse than before,difficulty applying strategies during actual exam week,added a grounding technique for acute moments,False,True,medium
+S00037,G0008,C006,2026-03-16,8,made real progress on this,difficulty applying strategies during actual exam week,broke the goal into smaller weekly steps,False,True,medium
+S00038,G0009,C007,2026-03-07,6,about the same as last week,physical illness disrupted routine,introduced a daily check-in journal,False,True,medium
+S00039,G0009,C007,2026-03-15,8,made real progress on this,physical illness disrupted routine,added a grounding technique for acute moments,False,True,high
+S00040,G0009,C007,2026-03-22,9,feeling much better this week,physical illness disrupted routine,broke the goal into smaller weekly steps,False,True,high
+S00041,G0009,C007,2026-04-01,7,"feeling much better this week, though honestly still struggling most days",physical illness disrupted routine,introduced a daily check-in journal,True,True,low
+S00042,G0010,C008,2026-02-01,3,felt worse than before,physical illness disrupted routine,added a grounding technique for acute moments,False,True,medium
+S00043,G0010,C008,2026-02-11,8,things are improving steadily,no barriers this session,involved a peer support group as additional support,False,False,none
+S00044,G0010,C008,2026-02-17,6,some ups and downs,missed sessions due to coursework deadlines,involved a peer support group as additional support,False,True,medium
+S00045,G0010,C008,2026-02-23,6,some ups and downs,reluctance to open up about the real issue,shifted target date by two weeks,False,True,medium
+S00046,G0010,C008,2026-03-05,9,things are improving steadily,physical illness disrupted routine,revised goal to be more realistic given workload,False,True,high
+S00047,G0010,C008,2026-03-15,5,about the same as last week,family obligations limited practice time,reduced session focus to one barrier at a time,False,True,medium
+S00048,G0010,C008,2026-03-22,8,had a genuinely good week,financial stress distracted from goal work,broke the goal into smaller weekly steps,False,True,medium
+S00049,G0010,C008,2026-03-30,4,about the same as last week,financial stress distracted from goal work,reduced session focus to one barrier at a time,False,True,high
+S00050,G0011,C009,2026-01-25,6,mixed week overall,difficulty applying strategies during actual exam week,added a grounding technique for acute moments,False,True,medium
+S00051,G0011,C009,2026-02-03,6,about the same as last week,reluctance to open up about the real issue,revised goal to be more realistic given workload,False,True,medium
+S00052,G0011,C009,2026-02-09,3,struggled a lot this week,"part-time job hours increased, less time to rest",introduced a daily check-in journal,False,True,high
+S00053,G0011,C009,2026-02-19,5,mixed week overall,no barriers this session,"no adjustment needed, continuing as planned",False,False,none
+S00054,G0011,C009,2026-03-01,5,mixed week overall,reluctance to open up about the real issue,reduced session focus to one barrier at a time,False,True,medium
+S00055,G0011,C009,2026-03-08,3,struggled a lot this week,financial stress distracted from goal work,added a grounding technique for acute moments,False,True,medium
+S00056,G0011,C009,2026-03-15,4,mixed week overall,reluctance to open up about the real issue,reduced session focus to one barrier at a time,False,True,medium
+S00057,G0012,C009,2026-01-25,5,about the same as last week,difficulty applying strategies during actual exam week,reduced session focus to one barrier at a time,False,True,medium
+S00058,G0012,C009,2026-02-01,5,mixed week overall,no barriers this session,shifted target date by two weeks,False,False,none
+S00059,G0012,C009,2026-02-07,6,feeling much better this week,no barriers this session,revised goal to be more realistic given workload,True,False,none
+S00060,G0012,C009,2026-02-13,7,had a genuinely good week,reluctance to open up about the real issue,revised goal to be more realistic given workload,False,True,high
+S00061,G0012,C009,2026-02-19,5,some ups and downs,family obligations limited practice time,added a grounding technique for acute moments,False,True,medium
+S00062,G0012,C009,2026-02-25,7,feeling much better this week,relapse into old coping habits under stress,shifted target date by two weeks,False,True,high
+S00063,G0012,C009,2026-03-05,3,struggled a lot this week,family obligations limited practice time,involved a peer support group as additional support,False,True,high
+S00064,G0013,C010,2026-03-13,8,had a genuinely good week,reluctance to open up about the real issue,revised goal to be more realistic given workload,False,True,high
+S00065,G0013,C010,2026-03-23,9,things are improving steadily,physical illness disrupted routine,broke the goal into smaller weekly steps,False,True,high
+S00066,G0013,C010,2026-03-29,9,made real progress on this,difficulty applying strategies during actual exam week,reduced session focus to one barrier at a time,False,True,medium
+S00067,G0013,C010,2026-04-05,5,feeling much better this week,no barriers this session,shifted target date by two weeks,True,True,medium
+S00068,G0013,C010,2026-04-14,7,had a genuinely good week,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,high
+S00069,G0013,C010,2026-04-22,7,had a genuinely good week,family obligations limited practice time,introduced a daily check-in journal,False,True,medium
+S00070,G0013,C010,2026-05-02,7,made real progress on this,"part-time job hours increased, less time to rest",added a grounding technique for acute moments,False,True,medium
+S00071,G0014,C011,2026-03-04,9,made real progress on this,family obligations limited practice time,broke the goal into smaller weekly steps,False,True,medium
+S00072,G0014,C011,2026-03-12,7,things are improving steadily,reluctance to open up about the real issue,added a grounding technique for acute moments,False,True,high
+S00073,G0014,C011,2026-03-20,7,things are improving steadily,no barriers this session,revised goal to be more realistic given workload,False,False,none
+S00074,G0014,C011,2026-03-30,2,feeling much better this week,no barriers this session,reduced session focus to one barrier at a time,True,True,high
+S00075,G0014,C011,2026-04-06,9,feeling much better this week,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,high
+S00076,G0014,C011,2026-04-13,6,mixed week overall,reluctance to open up about the real issue,reduced session focus to one barrier at a time,False,True,medium
+S00077,G0014,C011,2026-04-23,6,some ups and downs,family obligations limited practice time,revised goal to be more realistic given workload,False,True,medium
+S00078,G0014,C011,2026-05-01,5,about the same as last week,relapse into old coping habits under stress,"no adjustment needed, continuing as planned",False,True,medium
+S00079,G0015,C012,2026-01-22,7,had a genuinely good week,no barriers this session,broke the goal into smaller weekly steps,False,False,none
+S00080,G0015,C012,2026-01-30,5,about the same as last week,"part-time job hours increased, less time to rest",broke the goal into smaller weekly steps,False,True,medium
+S00081,G0015,C012,2026-02-09,6,about the same as last week,difficulty applying strategies during actual exam week,"no adjustment needed, continuing as planned",False,True,medium
+S00082,G0015,C012,2026-02-18,7,feeling much better this week,difficulty applying strategies during actual exam week,reduced session focus to one barrier at a time,False,True,medium
+S00083,G0015,C012,2026-02-26,6,feeling much better this week,no barriers this session,added a grounding technique for acute moments,True,False,none
+S00084,G0015,C012,2026-03-08,8,made real progress on this,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,high
+S00085,G0016,C013,2026-02-22,9,feeling much better this week,reluctance to open up about the real issue,added a grounding technique for acute moments,False,True,high
+S00086,G0016,C013,2026-03-01,6,mixed week overall,roommate conflict added new stress,reduced session focus to one barrier at a time,False,True,high
+S00087,G0016,C013,2026-03-10,9,made real progress on this,reluctance to open up about the real issue,shifted target date by two weeks,False,True,high
+S00088,G0017,C014,2026-01-21,8,made real progress on this,family obligations limited practice time,reduced session focus to one barrier at a time,False,True,medium
+S00089,G0017,C014,2026-01-30,5,mixed week overall,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,high
+S00090,G0017,C014,2026-02-07,8,had a genuinely good week,relapse into old coping habits under stress,revised goal to be more realistic given workload,False,True,high
+S00091,G0017,C014,2026-02-15,5,mixed week overall,"part-time job hours increased, less time to rest",revised goal to be more realistic given workload,False,True,medium
+S00092,G0017,C014,2026-02-22,9,made real progress on this,physical illness disrupted routine,involved a peer support group as additional support,False,True,high
+S00093,G0017,C014,2026-03-03,2,barely managed to cope,reluctance to open up about the real issue,involved a peer support group as additional support,False,True,high
+S00094,G0017,C014,2026-03-10,6,about the same as last week,relapse into old coping habits under stress,"no adjustment needed, continuing as planned",False,True,medium
+S00095,G0018,C015,2026-01-19,6,some ups and downs,missed sessions due to coursework deadlines,shifted target date by two weeks,False,True,medium
+S00096,G0018,C015,2026-01-26,3,felt worse than before,financial stress distracted from goal work,involved a peer support group as additional support,False,True,high
+S00097,G0018,C015,2026-02-03,8,had a genuinely good week,financial stress distracted from goal work,revised goal to be more realistic given workload,False,True,medium
+S00098,G0018,C015,2026-02-09,7,made real progress on this,roommate conflict added new stress,introduced a daily check-in journal,False,True,high
+S00099,G0018,C015,2026-02-18,9,feeling much better this week,reluctance to open up about the real issue,shifted target date by two weeks,False,True,high
+S00100,G0018,C015,2026-02-24,2,struggled a lot this week,roommate conflict added new stress,"no adjustment needed, continuing as planned",False,True,high
+S00101,G0019,C016,2026-02-01,6,mixed week overall,relapse into old coping habits under stress,shifted target date by two weeks,False,True,medium
+S00102,G0019,C016,2026-02-11,8,made real progress on this,reluctance to open up about the real issue,shifted target date by two weeks,False,True,high
+S00103,G0019,C016,2026-02-19,6,mixed week overall,missed sessions due to coursework deadlines,revised goal to be more realistic given workload,False,True,medium
+S00104,G0019,C016,2026-03-01,4,some ups and downs,financial stress distracted from goal work,reduced session focus to one barrier at a time,False,True,medium
+S00105,G0020,C017,2026-01-25,6,some ups and downs,difficulty applying strategies during actual exam week,involved a peer support group as additional support,False,True,medium
+S00106,G0020,C017,2026-01-31,5,mixed week overall,financial stress distracted from goal work,reduced session focus to one barrier at a time,False,True,medium
+S00107,G0020,C017,2026-02-08,2,feeling much better this week,no barriers this session,reduced session focus to one barrier at a time,True,True,medium
+S00108,G0020,C017,2026-02-14,9,had a genuinely good week,roommate conflict added new stress,introduced a daily check-in journal,False,True,high
+S00109,G0020,C017,2026-02-22,4,about the same as last week,physical illness disrupted routine,reduced session focus to one barrier at a time,False,True,medium
+S00110,G0020,C017,2026-03-01,7,"feeling much better this week, though honestly still struggling most days",reluctance to open up about the real issue,revised goal to be more realistic given workload,True,True,high
+S00111,G0021,C018,2026-02-03,3,felt worse than before,financial stress distracted from goal work,involved a peer support group as additional support,False,True,medium
+S00112,G0021,C018,2026-02-10,8,things are improving steadily,no barriers this session,reduced session focus to one barrier at a time,False,False,none
+S00113,G0021,C018,2026-02-18,9,had a genuinely good week,roommate conflict added new stress,"no adjustment needed, continuing as planned",False,True,high
+S00114,G0021,C018,2026-02-27,9,made real progress on this,difficulty applying strategies during actual exam week,involved a peer support group as additional support,False,True,medium
+S00115,G0021,C018,2026-03-09,5,some ups and downs,missed sessions due to coursework deadlines,reduced session focus to one barrier at a time,False,True,high
+S00116,G0021,C018,2026-03-18,5,mixed week overall,roommate conflict added new stress,involved a peer support group as additional support,False,True,medium
+S00117,G0021,C018,2026-03-26,3,struggled a lot this week,reluctance to open up about the real issue,broke the goal into smaller weekly steps,False,True,high
+S00118,G0021,C018,2026-04-05,5,mixed week overall,difficulty applying strategies during actual exam week,added a grounding technique for acute moments,False,True,medium
+S00119,G0022,C018,2026-02-04,7,feeling much better this week,relapse into old coping habits under stress,broke the goal into smaller weekly steps,False,True,high
+S00120,G0022,C018,2026-02-12,9,feeling much better this week,family obligations limited practice time,introduced a daily check-in journal,False,True,medium
+S00121,G0022,C018,2026-02-19,6,some ups and downs,no barriers this session,involved a peer support group as additional support,False,False,none
+S00122,G0022,C018,2026-02-26,8,feeling much better this week,reluctance to open up about the real issue,involved a peer support group as additional support,False,True,high
+S00123,G0022,C018,2026-03-06,2,felt worse than before,difficulty applying strategies during actual exam week,revised goal to be more realistic given workload,False,True,high
+S00124,G0022,C018,2026-03-13,8,"feeling much better this week, though honestly still struggling most days",reluctance to open up about the real issue,"no adjustment needed, continuing as planned",True,True,high
+S00125,G0023,C019,2026-02-19,9,had a genuinely good week,family obligations limited practice time,introduced a daily check-in journal,False,True,medium
+S00126,G0023,C019,2026-03-01,9,feeling much better this week,financial stress distracted from goal work,introduced a daily check-in journal,False,True,medium
+S00127,G0023,C019,2026-03-11,4,mixed week overall,difficulty applying strategies during actual exam week,introduced a daily check-in journal,False,True,high
+S00128,G0023,C019,2026-03-18,5,about the same as last week,physical illness disrupted routine,broke the goal into smaller weekly steps,False,True,medium
+S00129,G0024,C019,2026-02-20,6,feeling much better this week,no barriers this session,broke the goal into smaller weekly steps,True,False,none
+S00130,G0024,C019,2026-02-28,8,"feeling much better this week, though honestly still struggling most days",reluctance to open up about the real issue,"no adjustment needed, continuing as planned",True,True,high
+S00131,G0024,C019,2026-03-06,3,felt worse than before,no barriers this session,added a grounding technique for acute moments,False,True,medium
+S00132,G0024,C019,2026-03-15,6,some ups and downs,no barriers this session,added a grounding technique for acute moments,False,False,none
+S00133,G0025,C020,2026-02-06,2,barely managed to cope,no barriers this session,reduced session focus to one barrier at a time,False,False,none
+S00134,G0025,C020,2026-02-12,3,felt worse than before,"part-time job hours increased, less time to rest",involved a peer support group as additional support,False,True,medium
+S00135,G0025,C020,2026-02-21,7,had a genuinely good week,family obligations limited practice time,added a grounding technique for acute moments,False,True,medium
+S00136,G0025,C020,2026-02-28,3,felt worse than before,physical illness disrupted routine,"no adjustment needed, continuing as planned",False,True,medium
+S00137,G0026,C020,2026-02-04,5,feeling much better this week,no barriers this session,involved a peer support group as additional support,True,False,none
+S00138,G0026,C020,2026-02-10,8,made real progress on this,"part-time job hours increased, less time to rest",revised goal to be more realistic given workload,False,True,medium
+S00139,G0026,C020,2026-02-19,5,some ups and downs,"part-time job hours increased, less time to rest",involved a peer support group as additional support,False,True,medium
+S00140,G0026,C020,2026-02-27,6,mixed week overall,roommate conflict added new stress,"no adjustment needed, continuing as planned",False,True,medium
+S00141,G0026,C020,2026-03-08,3,feeling much better this week,no barriers this session,involved a peer support group as additional support,True,True,medium
+S00142,G0026,C020,2026-03-16,8,feeling much better this week,physical illness disrupted routine,"no adjustment needed, continuing as planned",False,True,high
+S00143,G0026,C020,2026-03-25,5,mixed week overall,"part-time job hours increased, less time to rest",broke the goal into smaller weekly steps,False,True,medium
+S00144,G0027,C021,2026-03-13,5,mixed week overall,no barriers this session,introduced a daily check-in journal,False,False,none
+S00145,G0027,C021,2026-03-22,4,feeling much better this week,no barriers this session,"no adjustment needed, continuing as planned",True,False,none
+S00146,G0027,C021,2026-03-30,7,had a genuinely good week,no barriers this session,broke the goal into smaller weekly steps,False,False,none
+S00147,G0027,C021,2026-04-07,2,felt worse than before,roommate conflict added new stress,"no adjustment needed, continuing as planned",False,True,high
+S00148,G0027,C021,2026-04-14,8,had a genuinely good week,family obligations limited practice time,shifted target date by two weeks,False,True,medium
+S00149,G0027,C021,2026-04-20,3,barely managed to cope,difficulty applying strategies during actual exam week,involved a peer support group as additional support,False,True,medium
+S00150,G0027,C021,2026-04-28,4,some ups and downs,financial stress distracted from goal work,added a grounding technique for acute moments,False,True,medium
+S00151,G0028,C022,2026-03-10,8,feeling much better this week,family obligations limited practice time,reduced session focus to one barrier at a time,False,True,medium
+S00152,G0028,C022,2026-03-19,6,some ups and downs,"part-time job hours increased, less time to rest",reduced session focus to one barrier at a time,False,True,medium
+S00153,G0028,C022,2026-03-29,3,felt worse than before,family obligations limited practice time,reduced session focus to one barrier at a time,False,True,high
+S00154,G0028,C022,2026-04-08,6,mixed week overall,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,medium
+S00155,G0029,C022,2026-03-09,2,felt worse than before,difficulty applying strategies during actual exam week,shifted target date by two weeks,False,True,medium
+S00156,G0029,C022,2026-03-17,5,about the same as last week,reluctance to open up about the real issue,involved a peer support group as additional support,False,True,medium
+S00157,G0029,C022,2026-03-26,6,feeling much better this week,no barriers this session,"no adjustment needed, continuing as planned",True,False,none
+S00158,G0029,C022,2026-04-01,6,some ups and downs,family obligations limited practice time,"no adjustment needed, continuing as planned",False,True,medium
+S00159,G0029,C022,2026-04-11,6,feeling much better this week,no barriers this session,reduced session focus to one barrier at a time,True,False,none
+S00160,G0029,C022,2026-04-17,9,made real progress on this,physical illness disrupted routine,revised goal to be more realistic given workload,False,True,high
+S00161,G0029,C022,2026-04-25,3,struggled a lot this week,difficulty applying strategies during actual exam week,involved a peer support group as additional support,False,True,medium
+S00162,G0030,C023,2026-01-27,6,some ups and downs,financial stress distracted from goal work,introduced a daily check-in journal,False,True,medium
+S00163,G0030,C023,2026-02-03,3,barely managed to cope,family obligations limited practice time,introduced a daily check-in journal,False,True,high
+S00164,G0030,C023,2026-02-11,5,feeling much better this week,no barriers this session,introduced a daily check-in journal,True,False,none
+S00165,G0030,C023,2026-02-19,4,mixed week overall,relapse into old coping habits under stress,added a grounding technique for acute moments,False,True,medium
+S00166,G0030,C023,2026-02-28,6,mixed week overall,physical illness disrupted routine,revised goal to be more realistic given workload,False,True,medium
+S00167,G0030,C023,2026-03-10,7,things are improving steadily,financial stress distracted from goal work,shifted target date by two weeks,False,True,medium
+S00168,G0030,C023,2026-03-19,6,some ups and downs,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,medium
+S00169,G0031,C024,2026-02-12,6,about the same as last week,missed sessions due to coursework deadlines,"no adjustment needed, continuing as planned",False,True,medium
+S00170,G0031,C024,2026-02-18,7,feeling much better this week,physical illness disrupted routine,involved a peer support group as additional support,False,True,high
+S00171,G0031,C024,2026-02-28,9,feeling much better this week,reluctance to open up about the real issue,introduced a daily check-in journal,False,True,high
+S00172,G0032,C025,2026-02-05,4,about the same as last week,reluctance to open up about the real issue,added a grounding technique for acute moments,False,True,medium
+S00173,G0032,C025,2026-02-13,9,"feeling much better this week, though honestly still struggling most days",physical illness disrupted routine,shifted target date by two weeks,True,True,low
+S00174,G0032,C025,2026-02-22,9,made real progress on this,financial stress distracted from goal work,"no adjustment needed, continuing as planned",False,True,medium
+S00175,G0032,C025,2026-03-03,6,some ups and downs,physical illness disrupted routine,broke the goal into smaller weekly steps,False,True,medium
+S00176,G0032,C025,2026-03-11,3,struggled a lot this week,no barriers this session,involved a peer support group as additional support,False,True,high
+S00177,G0032,C025,2026-03-21,8,things are improving steadily,family obligations limited practice time,shifted target date by two weeks,False,True,medium
+S00178,G0033,C025,2026-02-04,3,barely managed to cope,family obligations limited practice time,reduced session focus to one barrier at a time,False,True,medium
+S00179,G0033,C025,2026-02-12,8,"feeling much better this week, though honestly still struggling most days",reluctance to open up about the real issue,"no adjustment needed, continuing as planned",True,True,high
+S00180,G0033,C025,2026-02-19,9,things are improving steadily,reluctance to open up about the real issue,introduced a daily check-in journal,False,True,high
+S00181,G0033,C025,2026-02-26,4,some ups and downs,family obligations limited practice time,broke the goal into smaller weekly steps,False,True,medium
+S00182,G0033,C025,2026-03-08,4,some ups and downs,relapse into old coping habits under stress,shifted target date by two weeks,False,True,high
+S00183,G0034,C026,2026-02-25,8,made real progress on this,reluctance to open up about the real issue,broke the goal into smaller weekly steps,False,True,high
+S00184,G0034,C026,2026-03-04,9,things are improving steadily,reluctance to open up about the real issue,introduced a daily check-in journal,False,True,high
+S00185,G0034,C026,2026-03-12,9,had a genuinely good week,difficulty applying strategies during actual exam week,"no adjustment needed, continuing as planned",False,True,medium
+S00186,G0034,C026,2026-03-22,9,had a genuinely good week,roommate conflict added new stress,involved a peer support group as additional support,False,True,high
+S00187,G0034,C026,2026-03-31,9,made real progress on this,physical illness disrupted routine,shifted target date by two weeks,False,True,high
+S00188,G0034,C026,2026-04-06,7,things are improving steadily,no barriers this session,added a grounding technique for acute moments,False,False,none
+S00189,G0034,C026,2026-04-16,8,things are improving steadily,family obligations limited practice time,shifted target date by two weeks,False,True,medium
+S00190,G0034,C026,2026-04-26,4,some ups and downs,family obligations limited practice time,introduced a daily check-in journal,False,True,high
+S00191,G0035,C027,2026-02-06,6,some ups and downs,no barriers this session,"no adjustment needed, continuing as planned",False,False,none
+S00192,G0035,C027,2026-02-12,5,about the same as last week,financial stress distracted from goal work,added a grounding technique for acute moments,False,True,medium
+S00193,G0035,C027,2026-02-20,8,made real progress on this,missed sessions due to coursework deadlines,reduced session focus to one barrier at a time,False,True,medium
+S00194,G0035,C027,2026-03-01,7,made real progress on this,reluctance to open up about the real issue,revised goal to be more realistic given workload,False,True,high
+S00195,G0035,C027,2026-03-07,2,feeling much better this week,no barriers this session,involved a peer support group as additional support,True,True,medium
+S00196,G0036,C028,2026-02-18,5,about the same as last week,difficulty applying strategies during actual exam week,involved a peer support group as additional support,False,True,medium
+S00197,G0036,C028,2026-02-28,6,about the same as last week,reluctance to open up about the real issue,broke the goal into smaller weekly steps,False,True,medium
+S00198,G0036,C028,2026-03-10,5,feeling much better this week,no barriers this session,involved a peer support group as additional support,True,False,none
+S00199,G0036,C028,2026-03-18,5,some ups and downs,relapse into old coping habits under stress,added a grounding technique for acute moments,False,True,medium
+S00200,G0036,C028,2026-03-26,3,barely managed to cope,no barriers this session,broke the goal into smaller weekly steps,False,False,none
+S00201,G0037,C029,2026-01-23,7,things are improving steadily,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,high
+S00202,G0037,C029,2026-01-29,5,feeling much better this week,no barriers this session,"no adjustment needed, continuing as planned",True,False,none
+S00203,G0037,C029,2026-02-06,6,mixed week overall,relapse into old coping habits under stress,revised goal to be more realistic given workload,False,True,medium
+S00204,G0037,C029,2026-02-15,7,"feeling much better this week, though honestly still struggling most days",relapse into old coping habits under stress,revised goal to be more realistic given workload,True,True,high
+S00205,G0037,C029,2026-02-21,8,feeling much better this week,financial stress distracted from goal work,reduced session focus to one barrier at a time,False,True,medium
+S00206,G0037,C029,2026-03-03,6,about the same as last week,difficulty applying strategies during actual exam week,reduced session focus to one barrier at a time,False,True,medium
+S00207,G0038,C029,2026-01-22,5,some ups and downs,"part-time job hours increased, less time to rest",involved a peer support group as additional support,False,True,medium
+S00208,G0038,C029,2026-01-31,5,about the same as last week,reluctance to open up about the real issue,revised goal to be more realistic given workload,False,True,medium
+S00209,G0038,C029,2026-02-10,5,about the same as last week,"part-time job hours increased, less time to rest",added a grounding technique for acute moments,False,True,medium
+S00210,G0039,C030,2026-02-15,5,about the same as last week,family obligations limited practice time,"no adjustment needed, continuing as planned",False,True,medium
+S00211,G0039,C030,2026-02-23,6,mixed week overall,"part-time job hours increased, less time to rest",shifted target date by two weeks,False,True,medium
+S00212,G0039,C030,2026-03-03,6,mixed week overall,financial stress distracted from goal work,involved a peer support group as additional support,False,True,medium
+S00213,G0039,C030,2026-03-09,3,barely managed to cope,"part-time job hours increased, less time to rest","no adjustment needed, continuing as planned",False,True,medium
+S00214,G0040,C031,2026-02-13,9,"feeling much better this week, though honestly still struggling most days",relapse into old coping habits under stress,revised goal to be more realistic given workload,True,True,high
+S00215,G0040,C031,2026-02-20,8,things are improving steadily,financial stress distracted from goal work,involved a peer support group as additional support,False,True,medium
+S00216,G0040,C031,2026-02-26,7,had a genuinely good week,financial stress distracted from goal work,"no adjustment needed, continuing as planned",False,True,medium
+S00217,G0040,C031,2026-03-04,7,things are improving steadily,"part-time job hours increased, less time to rest","no adjustment needed, continuing as planned",False,True,medium
+S00218,G0040,C031,2026-03-11,9,feeling much better this week,relapse into old coping habits under stress,revised goal to be more realistic given workload,False,True,high
+S00219,G0040,C031,2026-03-21,3,felt worse than before,reluctance to open up about the real issue,introduced a daily check-in journal,False,True,high
+S00220,G0040,C031,2026-03-29,7,"feeling much better this week, though honestly still struggling most days",relapse into old coping habits under stress,added a grounding technique for acute moments,True,True,high
+S00221,G0040,C031,2026-04-07,4,mixed week overall,reluctance to open up about the real issue,added a grounding technique for acute moments,False,True,medium
+S00222,G0041,C031,2026-02-17,7,things are improving steadily,roommate conflict added new stress,shifted target date by two weeks,False,True,high
+S00223,G0041,C031,2026-02-24,8,made real progress on this,family obligations limited practice time,introduced a daily check-in journal,False,True,medium
+S00224,G0041,C031,2026-03-03,8,feeling much better this week,financial stress distracted from goal work,"no adjustment needed, continuing as planned",False,True,medium
+S00225,G0041,C031,2026-03-13,3,struggled a lot this week,family obligations limited practice time,reduced session focus to one barrier at a time,False,True,high
+S00226,G0041,C031,2026-03-22,6,feeling much better this week,no barriers this session,added a grounding technique for acute moments,True,False,none
+S00227,G0042,C032,2026-01-17,6,feeling much better this week,no barriers this session,"no adjustment needed, continuing as planned",True,False,none
+S00228,G0042,C032,2026-01-27,7,made real progress on this,relapse into old coping habits under stress,involved a peer support group as additional support,False,True,high
+S00229,G0042,C032,2026-02-02,8,made real progress on this,roommate conflict added new stress,shifted target date by two weeks,False,True,high
+S00230,G0042,C032,2026-02-09,5,mixed week overall,roommate conflict added new stress,added a grounding technique for acute moments,False,True,medium
+S00231,G0042,C032,2026-02-19,5,mixed week overall,roommate conflict added new stress,added a grounding technique for acute moments,False,True,medium
+S00232,G0043,C033,2026-03-08,9,made real progress on this,relapse into old coping habits under stress,"no adjustment needed, continuing as planned",False,True,high
+S00233,G0043,C033,2026-03-18,2,struggled a lot this week,family obligations limited practice time,broke the goal into smaller weekly steps,False,True,high
+S00234,G0043,C033,2026-03-28,5,about the same as last week,physical illness disrupted routine,involved a peer support group as additional support,False,True,medium
+S00235,G0043,C033,2026-04-03,6,mixed week overall,no barriers this session,reduced session focus to one barrier at a time,False,False,none
+S00236,G0044,C033,2026-03-05,5,mixed week overall,"part-time job hours increased, less time to rest",reduced session focus to one barrier at a time,False,True,medium
+S00237,G0044,C033,2026-03-11,4,some ups and downs,reluctance to open up about the real issue,revised goal to be more realistic given workload,False,True,medium
+S00238,G0044,C033,2026-03-21,4,mixed week overall,financial stress distracted from goal work,"no adjustment needed, continuing as planned",False,True,medium
+S00239,G0044,C033,2026-03-28,8,feeling much better this week,financial stress distracted from goal work,introduced a daily check-in journal,False,True,medium
+S00240,G0044,C033,2026-04-05,6,about the same as last week,family obligations limited practice time,broke the goal into smaller weekly steps,False,True,medium
+S00241,G0045,C034,2026-01-26,6,about the same as last week,financial stress distracted from goal work,"no adjustment needed, continuing as planned",False,True,medium
+S00242,G0045,C034,2026-02-02,6,mixed week overall,reluctance to open up about the real issue,revised goal to be more realistic given workload,False,True,medium
+S00243,G0045,C034,2026-02-11,2,felt worse than before,no barriers this session,revised goal to be more realistic given workload,False,True,medium
+S00244,G0045,C034,2026-02-18,7,feeling much better this week,missed sessions due to coursework deadlines,reduced session focus to one barrier at a time,False,True,medium
+S00245,G0045,C034,2026-02-27,5,feeling much better this week,no barriers this session,involved a peer support group as additional support,True,False,none
+S00246,G0045,C034,2026-03-07,7,had a genuinely good week,financial stress distracted from goal work,broke the goal into smaller weekly steps,False,True,medium
+S00247,G0046,C035,2026-01-21,4,mixed week overall,roommate conflict added new stress,added a grounding technique for acute moments,False,True,medium
+S00248,G0046,C035,2026-01-30,8,"feeling much better this week, though honestly still struggling most days",relapse into old coping habits under stress,added a grounding technique for acute moments,True,True,high
+S00249,G0046,C035,2026-02-08,5,some ups and downs,no barriers this session,"no adjustment needed, continuing as planned",False,False,none
+S00250,G0046,C035,2026-02-15,7,"feeling much better this week, though honestly still struggling most days",relapse into old coping habits under stress,broke the goal into smaller weekly steps,True,True,high
+S00251,G0046,C035,2026-02-23,8,had a genuinely good week,relapse into old coping habits under stress,shifted target date by two weeks,False,True,high
+S00252,G0046,C035,2026-03-05,5,some ups and downs,physical illness disrupted routine,reduced session focus to one barrier at a time,False,True,medium
+S00253,G0046,C035,2026-03-15,8,had a genuinely good week,physical illness disrupted routine,reduced session focus to one barrier at a time,False,True,high
+S00254,G0047,C036,2026-02-16,5,about the same as last week,"part-time job hours increased, less time to rest",reduced session focus to one barrier at a time,False,True,medium
+S00255,G0047,C036,2026-02-22,7,things are improving steadily,physical illness disrupted routine,introduced a daily check-in journal,False,True,high
+S00256,G0047,C036,2026-03-04,6,feeling much better this week,no barriers this session,involved a peer support group as additional support,True,False,none
+S00257,G0048,C037,2026-03-10,2,feeling much better this week,no barriers this session,introduced a daily check-in journal,True,False,none
+S00258,G0048,C037,2026-03-18,6,some ups and downs,difficulty applying strategies during actual exam week,involved a peer support group as additional support,False,True,medium
+S00259,G0048,C037,2026-03-28,9,feeling much better this week,relapse into old coping habits under stress,introduced a daily check-in journal,False,True,high
+S00260,G0048,C037,2026-04-06,6,some ups and downs,relapse into old coping habits under stress,revised goal to be more realistic given workload,False,True,medium
+S00261,G0048,C037,2026-04-14,6,mixed week overall,roommate conflict added new stress,revised goal to be more realistic given workload,False,True,medium
+S00262,G0048,C037,2026-04-21,5,some ups and downs,difficulty applying strategies during actual exam week,reduced session focus to one barrier at a time,False,True,medium
+S00263,G0048,C037,2026-04-28,7,had a genuinely good week,financial stress distracted from goal work,revised goal to be more realistic given workload,False,True,medium
+S00264,G0048,C037,2026-05-06,5,mixed week overall,no barriers this session,involved a peer support group as additional support,False,False,none
+S00265,G0049,C037,2026-03-11,9,made real progress on this,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,high
+S00266,G0049,C037,2026-03-17,5,some ups and downs,roommate conflict added new stress,revised goal to be more realistic given workload,False,True,high
+S00267,G0049,C037,2026-03-27,5,feeling much better this week,no barriers this session,shifted target date by two weeks,True,False,none
+S00268,G0049,C037,2026-04-06,5,about the same as last week,no barriers this session,introduced a daily check-in journal,False,False,none
+S00269,G0049,C037,2026-04-12,3,felt worse than before,reluctance to open up about the real issue,added a grounding technique for acute moments,False,True,medium
+S00270,G0049,C037,2026-04-19,2,barely managed to cope,relapse into old coping habits under stress,involved a peer support group as additional support,False,False,none
+S00271,G0050,C038,2026-02-08,7,things are improving steadily,financial stress distracted from goal work,reduced session focus to one barrier at a time,False,True,medium
+S00272,G0050,C038,2026-02-14,7,made real progress on this,no barriers this session,broke the goal into smaller weekly steps,False,False,none
+S00273,G0050,C038,2026-02-21,6,about the same as last week,missed sessions due to coursework deadlines,involved a peer support group as additional support,False,True,medium
+S00274,G0050,C038,2026-02-28,9,things are improving steadily,missed sessions due to coursework deadlines,broke the goal into smaller weekly steps,False,True,medium
+S00275,G0050,C038,2026-03-10,3,felt worse than before,roommate conflict added new stress,revised goal to be more realistic given workload,False,True,high
+S00276,G0050,C038,2026-03-20,6,about the same as last week,no barriers this session,revised goal to be more realistic given workload,False,False,none
+S00277,G0051,C038,2026-02-07,4,feeling much better this week,no barriers this session,shifted target date by two weeks,True,False,none
+S00278,G0051,C038,2026-02-15,8,made real progress on this,relapse into old coping habits under stress,involved a peer support group as additional support,False,True,high
+S00279,G0051,C038,2026-02-25,5,some ups and downs,family obligations limited practice time,shifted target date by two weeks,False,True,medium
+S00280,G0052,C039,2026-01-19,9,feeling much better this week,roommate conflict added new stress,involved a peer support group as additional support,False,True,high
+S00281,G0052,C039,2026-01-27,9,things are improving steadily,physical illness disrupted routine,broke the goal into smaller weekly steps,False,True,high
+S00282,G0052,C039,2026-02-04,7,feeling much better this week,family obligations limited practice time,revised goal to be more realistic given workload,False,True,medium
+S00283,G0052,C039,2026-02-13,7,things are improving steadily,family obligations limited practice time,reduced session focus to one barrier at a time,False,True,medium
+S00284,G0052,C039,2026-02-20,4,about the same as last week,reluctance to open up about the real issue,shifted target date by two weeks,False,True,high
+S00285,G0052,C039,2026-03-02,5,mixed week overall,no barriers this session,revised goal to be more realistic given workload,False,False,none
+S00286,G0053,C040,2026-02-08,8,feeling much better this week,no barriers this session,revised goal to be more realistic given workload,False,False,none
+S00287,G0053,C040,2026-02-16,3,barely managed to cope,family obligations limited practice time,broke the goal into smaller weekly steps,False,True,high
+S00288,G0053,C040,2026-02-26,4,mixed week overall,relapse into old coping habits under stress,shifted target date by two weeks,False,True,medium
+S00289,G0053,C040,2026-03-08,6,feeling much better this week,no barriers this session,revised goal to be more realistic given workload,True,False,none
+S00290,G0053,C040,2026-03-18,6,about the same as last week,reluctance to open up about the real issue,shifted target date by two weeks,False,True,medium
+S00291,G0053,C040,2026-03-27,7,had a genuinely good week,roommate conflict added new stress,broke the goal into smaller weekly steps,False,True,high
+S00292,G0053,C040,2026-04-02,8,feeling much better this week,missed sessions due to coursework deadlines,involved a peer support group as additional support,False,True,medium
+S00293,G0053,C040,2026-04-08,6,feeling much better this week,no barriers this session,revised goal to be more realistic given workload,True,False,none

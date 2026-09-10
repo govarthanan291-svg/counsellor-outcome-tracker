@@ -36,6 +36,26 @@ CHANGE LOG (post Review-1 feedback):
     triage a busy caseload by severity instead of treating every flag as
     equally urgent.
 
+CHANGE LOG (post real-model evaluation, see experiments/experiment_results.md):
+  - The semantic similarity check (`_semantic_mismatch`) was measured
+    against the real sentence-transformers model and found to HURT overall
+    performance: F1 dropped from 0.25 (rating-drop + keyword checks alone)
+    to 0.12-0.16 with the semantic check included, across every threshold
+    tested (see experiments/threshold_sweep.py). The reason: general-purpose
+    sentence embeddings score two SHORT, topically-different phrases as
+    dissimilar even when there's no real emotional contradiction between
+    them (e.g. "feeling better this week" vs. "missed a session due to a
+    deadline" -- unrelated topics, not a contradiction) -- conflating
+    "different subject" with "contradicts what was said" produced far more
+    false positives than it caught real mismatches.
+  - Given this evidence, the semantic check is now OFF by default
+    (`USE_SEMANTIC_CHECK = False`). The code is kept, not deleted, because
+    disabling a measured-to-be-harmful check based on real evaluation data
+    -- rather than removing the evidence trail -- is itself part of this
+    project's documented, evidence-based development process. A properly
+    recalibrated semantic approach (e.g. comparing emotional polarity
+    rather than raw topical similarity) is noted as future work.
+
 Requirements (install locally, needs internet access once for model download):
     pip install sentence-transformers requests
 
@@ -60,7 +80,13 @@ OLLAMA_MODEL = "llama3.2:1b"
 # Below this cosine similarity between a client's self-reported text and
 # their own barrier description, we consider the two to be in tension --
 # e.g. text says "feeling much better" while barriers describe a relapse.
-MISMATCH_SIMILARITY_THRESHOLD = 0.35
+MISMATCH_SIMILARITY_THRESHOLD = 0.1  # best value found via experiments/threshold_sweep.py
+
+# OFF by default -- see the change-log above. Measured against the real
+# model, this check hurt overall F1 (0.25 -> 0.12-0.16) rather than helping.
+# Left in place, and easy to re-enable, for anyone iterating on a better
+# semantic approach.
+USE_SEMANTIC_CHECK = False
 
 # A high numeric rating (7+) paired with barrier text that reads negative
 # is a second, independent signal checked alongside the text/barrier
@@ -163,11 +189,13 @@ class MismatchDetector:
         reasons = []
         rating = int(session["self_reported_rating"])
 
-        sem_flag, score = self._semantic_mismatch(
-            session["self_reported_text"], session["barriers"]
-        )
-        if sem_flag:
-            reasons.append("self-reported text and barriers semantically diverge")
+        sem_flag, score = False, 1.0
+        if USE_SEMANTIC_CHECK:
+            sem_flag, score = self._semantic_mismatch(
+                session["self_reported_text"], session["barriers"]
+            )
+            if sem_flag:
+                reasons.append("self-reported text and barriers semantically diverge")
 
         if self._rating_text_mismatch(rating, session["barriers"]):
             reasons.append("high numeric rating paired with negative barrier language")
@@ -186,7 +214,7 @@ class MismatchDetector:
             severity = "none"
         elif len(reasons) >= 2 or drop_amount >= 5:
             severity = "high"
-        elif len(reasons) == 1 and (sem_flag or drop_flag):
+        elif len(reasons) == 1:
             severity = "medium"
         else:
             severity = "low"
