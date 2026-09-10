@@ -94,6 +94,37 @@ future iteration.
 
 ---
 
+## Update after Review-1: Rating-drop check added
+
+Following review feedback, the confirmed failure-mode-1 gap (a sharp rating
+drop with no barrier text was previously undetected) was fixed by adding a
+rolling-average rating-drop check, independent of barrier text (see
+`prototype/mismatch_detector.py`, `_rating_drop_mismatch`).
+
+| Metric | Before (v1) | After (v2, +rating-drop check) |
+|---|---|---|
+| True positives | 12 | 17 |
+| False positives | 54 | 85 |
+| False negatives | 24 | 19 |
+| Precision | 0.18 | 0.17 |
+| Recall | 0.33 | **0.47** |
+| F1 | 0.24 | 0.25 |
+
+**5 additional true mismatches** were caught specifically by the new
+rating-drop check — a meaningful recall improvement (33% → 47%), at the
+cost of a small further increase in false positives. This is an honest
+trade-off, not a pure win: the fix closes a real, previously-confirmed gap
+(missing distress signals when a client's words don't match their numbers),
+but it also means more sessions get flagged overall. This directly connects
+to the alert-fatigue concern in `docs/failure-mode-analysis.md` — it further
+motivates the severity/confidence tiering added to `mismatch_detector.py`
+(`severity: low/medium/high`), so a counsellor can prioritize high-severity
+flags first rather than treating all 85 false positives as equally urgent.
+
+An automated test suite (`tests/test_mismatch_detector.py`, 16 tests) now
+covers this rating-drop logic directly and deterministically, independent
+of the TF-IDF proxy limitations discussed below.
+
 ## Next step for final numbers
 
 Run `experiments/experiment.py` locally (after following

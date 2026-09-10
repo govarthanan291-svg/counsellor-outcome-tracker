@@ -268,7 +268,11 @@ else:
         if run_check:
             detector = load_detector()
             with st.spinner("Comparing self-reported progress against session evidence..."):
-                results = [detector.check_session(row.to_dict()) for _, row in goal_sessions.iterrows()]
+                ratings = goal_sessions["self_reported_rating"].tolist()
+                results = []
+                for i, (_, row) in enumerate(goal_sessions.iterrows()):
+                    history = ratings[:i]  # prior ratings only, oldest first
+                    results.append(detector.check_session(row.to_dict(), rating_history=history))
 
             flagged = [r for r in results if r.is_flagged]
             st.markdown(
@@ -276,12 +280,15 @@ else:
                 unsafe_allow_html=True,
             )
 
-            for r in flagged:
+            for r in sorted(flagged, key=lambda r: {"high": 0, "medium": 1, "low": 2}.get(r.severity, 3)):
                 session_row = goal_sessions[goal_sessions["session_id"] == r.session_id].iloc[0]
                 explanation = r.explanation or "No explanation generated."
+                sev_class = f"status-{'needs-revision' if r.severity == 'high' else 'pending'}"
                 st.markdown(f"""
                 <div class="flag-row">
-                    <div class="flag-header">{r.session_id} — {session_row['session_date']}</div>
+                    <div class="flag-header">{r.session_id} — {session_row['session_date']} &nbsp;
+                        <span class="status-badge {sev_class}">{r.severity} priority</span>
+                    </div>
                     <div class="flag-detail">
                         <b>Rating</b> {session_row['self_reported_rating']}/10 &nbsp;·&nbsp;
                         <b>Reported</b> "{session_row['self_reported_text']}"<br>

@@ -20,6 +20,22 @@ This separation matters for the failure-mode analysis: even if the SLM
 hallucinates or is unavailable, the flagging logic still works correctly
 on its own.
 
+CHANGE LOG (post Review-1 feedback):
+  - Added a rolling-average rating-drop check (`_rating_drop_mismatch`).
+    This closes the confirmed gap from failure mode 1 (see
+    docs/failure-mode-analysis.md and docs/patient-journeys.md, client
+    C027): a sharp rating drop with no barrier text previously slipped
+    through undetected because the semantic check has nothing to compare
+    the self-reported text against when barriers are empty. This check is
+    independent of barrier text entirely -- it only needs the client's own
+    rating history.
+  - Added a confidence tier (`severity`: "low" / "medium" / "high") instead
+    of a bare binary flag, to address the alert-fatigue risk documented as
+    failure mode 4. Severity is based on how many independent checks agree
+    and how far the rating-drop exceeds its threshold, so a counsellor can
+    triage a busy caseload by severity instead of treating every flag as
+    equally urgent.
+
 Requirements (install locally, needs internet access once for model download):
     pip install sentence-transformers requests
 
@@ -54,11 +70,19 @@ NEGATIVE_BARRIER_KEYWORDS = [
     "relapse", "reluctance", "struggl", "disrupted", "conflict", "overwhelm",
 ]
 
+# A drop of this many points (or more) from the client's own rolling
+# average rating is flagged regardless of what the barrier text says --
+# this is what catches a client masking distress in their words while
+# their numbers tell a different story.
+RATING_DROP_THRESHOLD = 3
+ROLLING_WINDOW = 3
+
 
 @dataclass
 class MismatchResult:
     session_id: str
     is_flagged: bool
+    severity: str  # "none" | "low" | "medium" | "high"
     similarity_score: float
     reasons: list[str] = field(default_factory=list)
     explanation: Optional[str] = None
@@ -87,6 +111,22 @@ class MismatchDetector:
         barrier_lower = barriers.lower()
         return any(kw in barrier_lower for kw in NEGATIVE_BARRIER_KEYWORDS)
 
+    def _rating_drop_mismatch(self, rating: int, history: list[int]) -> tuple[bool, float]:
+        """Flags a sharp drop from the client's own rolling-average rating,
+        independent of barrier text. Closes the gap where a client's words
+        sound fine but their numbers tell a different story with no
+        barrier text to compare against.
+
+        `history` is prior ratings for this goal, oldest first, NOT
+        including the current session's rating.
+        """
+        if len(history) == 0:
+            return False, 0.0
+        window = history[-ROLLING_WINDOW:]
+        rolling_avg = sum(window) / len(window)
+        drop = rolling_avg - rating
+        return drop >= RATING_DROP_THRESHOLD, round(drop, 2)
+
     def _generate_explanation(self, session: dict, reasons: list[str]) -> Optional[str]:
         if not self.use_ollama:
             return None
@@ -114,8 +154,14 @@ class MismatchDetector:
             # gracefully. The flag itself is still valid without this text.
             return f"[Explanation unavailable: {e}]"
 
-    def check_session(self, session: dict) -> MismatchResult:
+    def check_session(self, session: dict, rating_history: Optional[list[int]] = None) -> MismatchResult:
+        """
+        session: dict with session_id, self_reported_rating, self_reported_text, barriers
+        rating_history: prior ratings for this same goal, oldest first (optional --
+            omitting it disables the rating-drop check, e.g. for a client's first session)
+        """
         reasons = []
+        rating = int(session["self_reported_rating"])
 
         sem_flag, score = self._semantic_mismatch(
             session["self_reported_text"], session["barriers"]
@@ -123,15 +169,34 @@ class MismatchDetector:
         if sem_flag:
             reasons.append("self-reported text and barriers semantically diverge")
 
-        if self._rating_text_mismatch(int(session["self_reported_rating"]), session["barriers"]):
+        if self._rating_text_mismatch(rating, session["barriers"]):
             reasons.append("high numeric rating paired with negative barrier language")
 
+        drop_flag, drop_amount = self._rating_drop_mismatch(rating, rating_history or [])
+        if drop_flag:
+            reasons.append(f"rating dropped {drop_amount} points below recent average")
+
         is_flagged = len(reasons) > 0
+
+        # Severity: more independent signals agreeing, or a larger rating
+        # drop, means higher confidence this is a real mismatch worth
+        # prioritizing -- lets a counsellor triage instead of treating
+        # every flag identically (mitigates alert fatigue).
+        if not is_flagged:
+            severity = "none"
+        elif len(reasons) >= 2 or drop_amount >= 5:
+            severity = "high"
+        elif len(reasons) == 1 and (sem_flag or drop_flag):
+            severity = "medium"
+        else:
+            severity = "low"
+
         explanation = self._generate_explanation(session, reasons) if is_flagged else None
 
         return MismatchResult(
             session_id=session["session_id"],
             is_flagged=is_flagged,
+            severity=severity,
             similarity_score=round(score, 3),
             reasons=reasons,
             explanation=explanation,
@@ -139,7 +204,7 @@ class MismatchDetector:
 
 
 if __name__ == "__main__":
-    # Quick manual smoke test with two example sessions
+    # Quick manual smoke test with three example sessions
     detector = MismatchDetector(use_ollama=True)
 
     example_ok = {
@@ -154,7 +219,22 @@ if __name__ == "__main__":
         "self_reported_text": "feeling much better this week, though honestly still struggling most days",
         "barriers": "relapse into old coping habits under stress",
     }
+    example_rating_drop = {
+        # This is the previously-missed pattern: positive text, empty
+        # barriers, but a sharp drop from the client's recent average.
+        "session_id": "TEST003",
+        "self_reported_rating": 2,
+        "self_reported_text": "feeling much better this week",
+        "barriers": "no barriers this session",
+    }
 
-    for ex in (example_ok, example_mismatch):
-        result = detector.check_session(ex)
-        print(json.dumps(result.__dict__, indent=2))
+    print("--- Clean session (no history needed) ---")
+    print(json.dumps(detector.check_session(example_ok).__dict__, indent=2))
+
+    print("\n--- Text/barrier mismatch ---")
+    print(json.dumps(detector.check_session(example_mismatch).__dict__, indent=2))
+
+    print("\n--- Rating-drop mismatch (previously missed, now caught) ---")
+    print(json.dumps(
+        detector.check_session(example_rating_drop, rating_history=[7, 8, 7]).__dict__, indent=2
+    ))

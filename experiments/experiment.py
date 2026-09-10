@@ -28,12 +28,20 @@ def main():
     sessions = pd.read_csv(os.path.join(DATA_DIR, "sessions.csv"))
     detector = MismatchDetector(use_ollama=False)  # explanations not needed for metrics
 
-    predictions = []
-    for _, row in sessions.iterrows():
-        result = detector.check_session(row.to_dict())
-        predictions.append(result.is_flagged)
+    # Sort within each goal by date so rating history is chronological
+    sessions = sessions.sort_values(["goal_id", "session_date"]).reset_index(drop=True)
 
-    sessions["predicted_flag"] = predictions
+    predictions = []
+    for goal_id, group in sessions.groupby("goal_id"):
+        ratings = group["self_reported_rating"].tolist()
+        for i, (_, row) in enumerate(group.iterrows()):
+            history = ratings[:i]
+            result = detector.check_session(row.to_dict(), rating_history=history)
+            predictions.append((row.name, result.is_flagged, result.severity))
+
+    pred_map = {idx: (flag, sev) for idx, flag, sev in predictions}
+    sessions["predicted_flag"] = sessions.index.map(lambda i: pred_map[i][0])
+    sessions["severity"] = sessions.index.map(lambda i: pred_map[i][1])
     ground_truth = sessions["flagged_mismatch_ground_truth"].astype(bool)
     predicted = sessions["predicted_flag"].astype(bool)
 
