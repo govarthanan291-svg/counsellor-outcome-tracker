@@ -1,79 +1,103 @@
-# User / Stakeholder Validation Summary (Simulated)
+# User / Stakeholder Validation Summary
 
-**Note on methodology:** Real access to a counsellor or client at a
-university counselling centre was not available within the project
-timeline. This validation is a **simulated stakeholder walkthrough** —
-constructed by walking a counsellor persona and a client persona through
-the actual working prototype (not a mockup) and reasoning through their
-likely reactions based on the tool's real behavior, the patient journeys
-already demonstrated, and known constraints in real clinical workflows.
-This is disclosed here explicitly rather than presented as real feedback,
-in keeping with the project's own emphasis on honest failure/limitation
-reporting.
+## Real feedback (collected after Review-1)
 
-**What real validation would involve, if extended:** A short structured
-walkthrough (15–20 min) with an actual counsellor at the centre, showing
-the C001 (low urgency) and C027 (high urgency) journeys from
-`docs/patient-journeys.md`, followed by a brief structured feedback form
-covering trust, workload impact, and clarity of the flagged explanations.
+A structured walkthrough was conducted with a real person (a friend,
+non-clinical background) using the actual working prototype — not a mockup.
+This replaces the simulated personas used before Review-1, in direct
+response to reviewer feedback asking for genuine human input.
+
+**Format:** ~10 minute live demo of the Streamlit app, walking through
+client C001 (Danielle J., goal "Manage panic attacks", baseline "2-3 panic
+attacks per week", target "reduced to under 1 per month" by 2026-03-19),
+running the mismatch check, and reviewing the flagged session together.
+Then five open questions, answered in their own words.
+
+**The session that anchored the walkthrough:** Session `S00003`
+(2026-02-15) — self-reported rating 8/10, self-reported text "feeling much
+better this week," barrier text "relapse into old coping habits." The
+prototype flags this as a rating/keyword mismatch (a high rating paired
+with clearly negative barrier language). The person independently noticed
+and confirmed this contradiction before being told it was the flagged
+case.
+
+### Q1 — First impression
+> "Idhu oru Mental Health Outcome Tracker maathri theriyudhu. Counselor
+> illana therapist, avanga client oda progress ah track panna use
+> panranga. Just attendance mattum paakama, client real-ah progress
+> aagurangala nu paaka help pannudhu."
+
+(Reads it as a mental-health outcome tracker for counsellors/therapists —
+correctly identified the core shift away from attendance.)
+
+### Q2 — Trust
+> "Kandipa naan manual-ah check dhaan pannuven. AI flag panradhu automatic
+> rating-keyword mismatch vechu dhaan. Enna dhaan code eladhunalu,
+> unmaiyana human emotion-ah adhala sariya purinjuka mudiyadhu... So blind
+> ah trust panna koodathu."
+
+(Would not trust a flag blindly — wants to verify manually. Matches the
+project's own design principle that the AI flags, never decides.)
+
+### Q3 — Workload
+> "Aama, nariya cases handle pannum bodhu 1-in-3 flag aana processing
+> thodharba konjam overwhelming ah dhaan irukkum. Aana ithu serious cases
+> ah prioritize panna nalla use aagum. False flags nariya vunduna dhaan
+> kadupayidum."
+
+(Confirms the alert-fatigue risk already documented in
+`docs/failure-mode-analysis.md` — but also sees the severity-tiering as a
+genuine mitigation for prioritizing serious cases.)
+
+### Q4 — Clarity
+> "Aama, starting-la Rating Scale konjam confuse aachu. Rating dropped-nu
+> poduranga, aana rating score 8/10 nu iruku (usually 8/10 nalladhunu
+> neneipom). Inga high score dhaan bad progress pola. Adhuvum illama
+> graph la timeline la clear-ah gaps theriyala."
+
+(A genuinely new finding: a high self-reported rating (8/10) read as
+"good" at a glance, even when it's the exact rating that got the session
+flagged as a mismatch. The rating/keyword check and the rating-drop check
+can both fire on different sessions, and nothing in the UI currently
+distinguishes which rule flagged a given session or why "high number +
+negative barrier" is the bad case here. Also flagged: no visual gap
+marker on the ratings chart for missed or widely-spaced sessions.)
+
+### Q5 — Overall
+> "100% better-ah irukku! Attendance dhaan just a number... Ipdhi
+> qualitative text and barrier tracking pandradhu dhaan nijamana therapy
+> progress."
+
+(Clear endorsement of the core hypothesis: goal- and evidence-based
+tracking over attendance-only.)
 
 ---
 
-## Simulated persona 1: Counsellor
+## What this surfaced that the technical experiment didn't
 
-**Walkthrough:** Shown the dashboard for C027 (high urgency), including
-the flagged session and the AI-generated explanation, then the missed
-rating-drop case identified in the failure-mode analysis.
+The precision/recall numbers in `experiments/experiment_results.md` say
+*how often* the detector is right. This walkthrough surfaced something
+different: **why** a flag could be right and still confusing. Q4 is a
+concrete, new UI finding — the app doesn't currently tell a counsellor
+*which* rule fired (rating-drop vs. keyword) or make clear that, for the
+keyword check, a high number is the bad sign, not the good one. That's a
+real usability gap this single session caught that the automated test
+suite and the quantitative experiment both have no way to catch.
 
-**Likely reaction (positive):**
-- Would likely value that flags come with the *raw evidence* (rating,
-  text, barriers) directly alongside the AI explanation, rather than a
-  bare verdict — this matches how counsellors already work (checking
-  evidence, not accepting conclusions at face value)
-- Would likely see the goal-based history as more useful than a session
-  count for actual progress conversations with a client
+## Action items from this feedback
 
-**Likely reaction (concern):**
-- Would likely be uncomfortable with the false-positive rate (54 of 293
-  sessions flagged in the experiment, only 12 being real matches) if
-  deployed as-is — flagging nearly 1 in 5 sessions is not sustainable for
-  a caseload during exam-period peak demand
-- Would likely ask what happens when Ollama is down mid-session — the
-  degraded "[Explanation unavailable]" message needs a clearer, less
-  technical wording for a non-technical user
-
-## Simulated persona 2: Client (student)
-
-**Walkthrough:** Reasoned through what it would feel like for a client
-whose session was flagged, referencing the C027 journey where the client
-was masking distress.
-
-**Likely reaction (positive):**
-- Would likely appreciate that the *goal itself* is defined in their own
-  words, rather than a clinical label — matches the project's stated aim
-  of "meaningful improvement defined with the client," not attendance
-
-**Likely reaction (concern):**
-- Would likely feel uneasy knowing an AI system is comparing what they say
-  against what they say elsewhere — this needs to be transparently
-  disclosed to clients as part of informed consent, not run silently in
-  the background
-
----
-
-## Synthesized recommendation
-
-| Theme | Finding | Action before real deployment |
+| Finding | Source | Action |
 |---|---|---|
-| Trust | Evidence-alongside-flag design is appropriate | Keep as-is |
-| Workload | False-positive rate too high for peak-demand periods | Tune threshold, or add a confidence tier instead of binary flag |
-| Failure handling | Ollama-unavailable message is too technical | Rewrite for non-technical counsellor-facing language |
-| Consent | Clients aren't told their text is being compared automatically | Add explicit disclosure step at intake (Stage 1) |
-| Core value | Client-defined goals are seen as a real improvement over attendance-only | No change needed — this is the project's central hypothesis, and it holds up |
+| High rating + negative keyword reads as "good" at a glance | Q4 | Label which rule fired per flag ("rating/keyword mismatch" vs. "rating-drop"), not just the reasons list |
+| No visual gap marker for missed/spaced sessions | Q4 | Future work — mark session gaps on the ratings chart |
+| 1-in-3 flag rate feels heavy under full caseload | Q3 | Matches documented failure mode 4; severity tiers are a partial mitigation already shipped |
+| Manual verification is expected, not optional | Q2 | Confirms the "AI flags, never decides" design principle is read correctly by a first-time user |
 
-This simulated exercise doesn't replace real stakeholder input, but it
-surfaces concrete, specific concerns (workload, consent, false-positive
-tolerance) that a purely technical evaluation (the precision/recall
-numbers in `experiments/experiment_results.md`) would not have caught on
-its own — which is itself the argument for why a real validation step
-matters before any actual deployment.
+---
+
+## Note on the pre-Review-1 simulated validation
+
+Before Review-1, this document used simulated counsellor/client personas,
+explicitly disclosed as simulated, because real access wasn't available
+within the original timeline. That simulated version is not reproduced
+here — this document now reflects the real feedback collected above.
