@@ -63,7 +63,7 @@ def main():
     print("Mismatches it can detect: 0 (concept doesn't exist in this model)")
     print("Precision / Recall / F1: N/A -- not applicable, no prediction made\n")
 
-    print("--- Prototype (semantic + rating-divergence detector) ---")
+    print("--- Prototype (rating-drop + keyword; semantic check off) ---")
     print(f"True positives:  {tp}")
     print(f"False positives: {fp}")
     print(f"False negatives: {fn}")
@@ -80,7 +80,7 @@ def main():
         f.write(f"- True mismatches (ground truth): {int(ground_truth.sum())}\n\n")
         f.write("## Baseline (attendance-only)\n")
         f.write("- Mismatches detected: 0 (no such concept exists in the model)\n\n")
-        f.write("## Prototype (semantic + rating-divergence detector)\n")
+        f.write("## Prototype (rating-drop + keyword; semantic check off)\n")
         f.write(f"- Precision: {precision:.2f}\n- Recall: {recall:.2f}\n- F1: {f1:.2f}\n- Accuracy: {accuracy:.2f}\n")
         f.write(f"- TP={tp}, FP={fp}, FN={fn}, TN={tn}\n")
 

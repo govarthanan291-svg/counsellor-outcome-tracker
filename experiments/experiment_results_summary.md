@@ -6,7 +6,7 @@
 ## Baseline (attendance-only)
 - Mismatches detected: 0 (no such concept exists in the model)
 
-## Prototype (semantic + rating-divergence detector)
+## Prototype (rating-drop + keyword; semantic check off)
 - Precision: 0.17
 - Recall: 0.47
 - F1: 0.25

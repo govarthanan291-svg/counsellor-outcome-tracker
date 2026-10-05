@@ -1,11 +1,13 @@
 # Collaborative Outcome Tracker -- Prototype Setup
 
-This prototype uses a **local SLM (via Ollama)** and **sentence-transformers**
-for semantic mismatch detection between what a client says and what actually
-happened in their sessions. Both need to be installed on your own machine
-with internet access -- they will NOT work inside a restricted/offline
-environment, since the models are downloaded from the internet the first
-time they run.
+This prototype flags mismatches with a **rating-drop check** and a
+**keyword check**. Those rules run with no extra models.
+
+A **sentence-transformers** semantic check exists in `mismatch_detector.py`
+but is **off by default** (`USE_SEMANTIC_CHECK = False`) after a real-model
+evaluation found it hurt precision. A **local SLM via Ollama** is optional
+and only writes counsellor-facing explanations of flags that were already
+made. Neither is required on Streamlit Cloud.
 
 ## 1. Install Python dependencies
 
@@ -15,9 +17,8 @@ From the `prototype/` folder:
 pip install streamlit pandas altair sentence-transformers requests
 ```
 
-The first time you run the app, `sentence-transformers` will download the
-`all-MiniLM-L6-v2` model (~90MB) from Hugging Face automatically. This needs
-internet access once -- after that it's cached locally and works offline.
+`sentence-transformers` is only downloaded if you set
+`USE_SEMANTIC_CHECK = True`. The default app path does not load that model.
 
 ## 2. Install and set up Ollama (for AI explanations)
 
@@ -36,16 +37,17 @@ internet access once -- after that it's cached locally and works offline.
    ```
    It should be reachable at `http://localhost:11434`.
 
-**Note:** If Ollama isn't running, the app still works -- the mismatch
-*flagging* (the actual decision logic) doesn't depend on Ollama at all. Only
-the plain-language explanation shown to the counsellor will show an
-"[Explanation unavailable]" message instead. This is intentional -- see the
-failure-mode notes in `mismatch_detector.py`.
+**Note:** If Ollama isn't running (including Streamlit Cloud), leave the
+"Generate Ollama explanations" checkbox off. If you turn it on anyway, the
+detector tries once (5s timeout), then skips further calls for that process
+and shows a short "SLM not reachable" note. Flagging still works. Do not
+rely on `localhost:11434` in Cloud.
 
 ## 3. Folder layout expected
 
-Make sure the folder structure looks like this (the app reads synthetic data
-via a relative path):
+Make sure the folder structure looks like this. `app.py` resolves
+`synthetic_data/` from its own file path (not the process working
+directory), so Streamlit Cloud is fine as long as the full repo is deployed:
 
 ```
 counsellor-outcome-tracker/
@@ -80,18 +82,24 @@ To sanity-check the detector logic on its own, from `prototype/`:
 python3 mismatch_detector.py
 ```
 
-This runs two example sessions (one clean, one deliberately mismatched) and
-prints the detector's output as JSON.
+This runs three example sessions (clean, keyword mismatch, rating-drop)
+and prints the detector's output as JSON.
+
+## Tests
+
+From the **repo root** (not `prototype/`):
+
+```bash
+pytest tests/ -v
+```
 
 ## Why this design (for your documentation)
 
-- The **flagging decision** is a simple, inspectable rule based on semantic
-  similarity + rating/text divergence -- not a black-box LLM judgment. This
-  matters for the failure-mode analysis: you can explain exactly why any
-  session was or wasn't flagged.
-- The **SLM (Ollama)** is used only to turn an already-made decision into a
-  readable sentence for the counsellor -- it never decides the outcome
-  itself, and the system degrades gracefully if it's unavailable.
+- The **flagging decision** is a simple, inspectable rule (rating-drop +
+  keyword, optional semantic check) -- not a black-box LLM judgment.
+- The **SLM (Ollama)** only turns an already-made decision into a readable
+  sentence. It never decides the outcome, and it is skipped after one
+  failed contact if the server is down.
 - All flags route to a **human counsellor** for review (Stage 4 in the
   field-workflow map) -- the AI never concludes anything about a client's
   actual wellbeing on its own.

@@ -3,66 +3,30 @@ mismatch_detector.py
 
 Core AI layer for the Collaborative Outcome Tracker (Stage 4: Progress Tracking).
 
-Two models are used together:
-  1. sentence-transformers (all-MiniLM-L6-v2) -- computes semantic similarity
-     between a client's self-reported progress text and their stated goal /
-     barriers, to catch cases where the WORDS sound positive but the
-     substance (barriers described) contradicts it.
-  2. Ollama (local SLM, e.g. llama3.2:1b or phi3:mini) -- given a flagged
-     case, produces a short, human-readable explanation of WHY it was
-     flagged, for the counsellor to quickly review. The SLM never decides
-     the outcome -- it only explains a decision made by the semantic check.
+Decision logic (flag or don't flag) is a small set of inspectable rules:
+  1. Rating-drop check -- a sharp drop from the client's own rolling-average
+     rating, independent of barrier text.
+  2. Keyword check -- a high numeric rating paired with clearly negative
+     barrier language.
+  3. Semantic similarity check -- OPTIONAL, OFF by default. Measured against
+     the real sentence-transformers model and found to hurt precision
+     (see experiments/experiment_results.md). Code is kept for future work
+     on a polarity-based approach, not topical cosine similarity.
 
-This keeps the "decision" (flag or don't flag) in a simple, inspectable,
-testable numeric rule -- and uses the SLM only for the part language
-models are actually good at: turning evidence into a readable sentence.
-This separation matters for the failure-mode analysis: even if the SLM
-hallucinates or is unavailable, the flagging logic still works correctly
-on its own.
+Ollama (local SLM) never decides the outcome. If enabled, it only turns an
+already-made flag into a short counsellor-facing sentence. If Ollama is
+down (the normal case on Streamlit Cloud), flagging still works and
+explanations are skipped after the first failed contact.
 
 CHANGE LOG (post Review-1 feedback):
-  - Added a rolling-average rating-drop check (`_rating_drop_mismatch`).
-    This closes the confirmed gap from failure mode 1 (see
-    docs/failure-mode-analysis.md and docs/patient-journeys.md, client
-    C027): a sharp rating drop with no barrier text previously slipped
-    through undetected because the semantic check has nothing to compare
-    the self-reported text against when barriers are empty. This check is
-    independent of barrier text entirely -- it only needs the client's own
-    rating history.
-  - Added a confidence tier (`severity`: "low" / "medium" / "high") instead
-    of a bare binary flag, to address the alert-fatigue risk documented as
-    failure mode 4. Severity is based on how many independent checks agree
-    and how far the rating-drop exceeds its threshold, so a counsellor can
-    triage a busy caseload by severity instead of treating every flag as
-    equally urgent.
+  - Added `_rating_drop_mismatch` (failure mode 1 / client C027).
+  - Added severity tiers (low / medium / high) so a counsellor can triage
+    instead of treating every flag as equally urgent (failure mode 4).
 
-CHANGE LOG (post real-model evaluation, see experiments/experiment_results.md):
-  - The semantic similarity check (`_semantic_mismatch`) was measured
-    against the real sentence-transformers model and found to HURT overall
-    performance: F1 dropped from 0.25 (rating-drop + keyword checks alone)
-    to 0.12-0.16 with the semantic check included, across every threshold
-    tested (see experiments/threshold_sweep.py). The reason: general-purpose
-    sentence embeddings score two SHORT, topically-different phrases as
-    dissimilar even when there's no real emotional contradiction between
-    them (e.g. "feeling better this week" vs. "missed a session due to a
-    deadline" -- unrelated topics, not a contradiction) -- conflating
-    "different subject" with "contradicts what was said" produced far more
-    false positives than it caught real mismatches.
-  - Given this evidence, the semantic check is now OFF by default
-    (`USE_SEMANTIC_CHECK = False`). The code is kept, not deleted, because
-    disabling a measured-to-be-harmful check based on real evaluation data
-    -- rather than removing the evidence trail -- is itself part of this
-    project's documented, evidence-based development process. A properly
-    recalibrated semantic approach (e.g. comparing emotional polarity
-    rather than raw topical similarity) is noted as future work.
-
-Requirements (install locally, needs internet access once for model download):
-    pip install sentence-transformers requests
-
-Ollama setup (optional -- explanations degrade gracefully without it):
-    1. Install Ollama: https://ollama.com/download
-    2. Run: ollama pull llama3.2:1b
-    3. Run: ollama serve   (usually starts automatically after install)
+CHANGE LOG (post real-model evaluation):
+  - Semantic check OFF by default (`USE_SEMANTIC_CHECK = False`).
+    F1 was 0.25 with rating-drop + keyword alone, and 0.12-0.16 with the
+    semantic check included, at every threshold tested.
 """
 
 from __future__ import annotations
@@ -72,36 +36,38 @@ from dataclasses import dataclass, field
 from typing import Optional
 
 import requests
-from sentence_transformers import SentenceTransformer, util
+
+# Imported lazily in `_load_model` so Streamlit Cloud / tests do not
+# download all-MiniLM-L6-v2 unless the optional semantic check is on.
+SentenceTransformer = None  # set on first use
+util = None
 
 OLLAMA_URL = "http://localhost:11434/api/generate"
 OLLAMA_MODEL = "llama3.2:1b"
+# Short enough that a hung local server cannot stall a Cloud session;
+# connection-refused (Ollama not installed) fails in milliseconds anyway.
+OLLAMA_TIMEOUT_SECONDS = 5
 
-# Below this cosine similarity between a client's self-reported text and
-# their own barrier description, we consider the two to be in tension --
-# e.g. text says "feeling much better" while barriers describe a relapse.
-MISMATCH_SIMILARITY_THRESHOLD = 0.1  # best value found via experiments/threshold_sweep.py
+MISMATCH_SIMILARITY_THRESHOLD = 0.1  # best value from experiments/threshold_sweep.py
 
-# OFF by default -- see the change-log above. Measured against the real
-# model, this check hurt overall F1 (0.25 -> 0.12-0.16) rather than helping.
-# Left in place, and easy to re-enable, for anyone iterating on a better
-# semantic approach.
+# OFF by default -- see change-log. Measured to hurt overall F1.
 USE_SEMANTIC_CHECK = False
 
-# A high numeric rating (7+) paired with barrier text that reads negative
-# is a second, independent signal checked alongside the text/barrier
-# similarity check -- catches cases where the rating and the words disagree.
 HIGH_RATING_THRESHOLD = 7
 NEGATIVE_BARRIER_KEYWORDS = [
     "relapse", "reluctance", "struggl", "disrupted", "conflict", "overwhelm",
 ]
 
-# A drop of this many points (or more) from the client's own rolling
-# average rating is flagged regardless of what the barrier text says --
-# this is what catches a client masking distress in their words while
-# their numbers tell a different story.
 RATING_DROP_THRESHOLD = 3
+# A drop this large, even as a sole signal, is treated as high severity.
+LARGE_DROP_THRESHOLD = 5
 ROLLING_WINDOW = 3
+
+# Counsellor-facing copy when Ollama is missing or has already failed once.
+OLLAMA_UNAVAILABLE_NOTE = (
+    "Plain-language explanation skipped — the local SLM is not reachable. "
+    "The flag and reasons above are still valid."
+)
 
 
 @dataclass
@@ -114,18 +80,55 @@ class MismatchResult:
     explanation: Optional[str] = None
 
 
+def _severity(reasons: list[str], drop_amount: float, drop_flagged: bool) -> str:
+    """Map independent signals onto a triage tier.
+
+    - none:   no signals
+    - low:    keyword mismatch only (noisy substring heuristic)
+    - medium: a modest rating-drop [RATING_DROP_THRESHOLD, LARGE_DROP_THRESHOLD)
+              as the sole signal
+    - high:   two or more signals, or a rating-drop of LARGE_DROP_THRESHOLD+
+
+    The previous `else: low` branch was unreachable: a flagged session always
+    has at least one reason, and `len(reasons) == 1` swallowed every
+    single-signal case as medium.
+    """
+    if not reasons:
+        return "none"
+    if len(reasons) >= 2 or drop_amount >= LARGE_DROP_THRESHOLD:
+        return "high"
+    if drop_flagged:
+        return "medium"
+    return "low"
+
+
 class MismatchDetector:
     def __init__(self, use_ollama: bool = True):
-        print("Loading sentence-transformers model (all-MiniLM-L6-v2)...")
-        self.model = SentenceTransformer("all-MiniLM-L6-v2")
+        self._model = None
         self.use_ollama = use_ollama
+        # After the first connection/timeout/HTTP failure, skip further
+        # Ollama calls for this process (typical Streamlit Cloud case).
+        self._ollama_reachable = use_ollama
+
+    def _load_model(self):
+        """Load sentence-transformers only if the semantic check is on."""
+        global SentenceTransformer, util
+        if self._model is not None:
+            return self._model
+        print("Loading sentence-transformers model (all-MiniLM-L6-v2)...")
+        from sentence_transformers import SentenceTransformer as ST, util as st_util
+        SentenceTransformer = ST
+        util = st_util
+        self._model = ST("all-MiniLM-L6-v2")
+        return self._model
 
     def _semantic_mismatch(self, self_reported_text: str, barriers: str) -> tuple[bool, float]:
         """Flags when self-reported text and barrier description point in
         different emotional directions (low semantic alignment)."""
         if barriers.strip().lower() in ("no barriers this session", ""):
             return False, 1.0  # nothing to contradict
-        emb = self.model.encode([self_reported_text, barriers], convert_to_tensor=True)
+        model = self._load_model()
+        emb = model.encode([self_reported_text, barriers], convert_to_tensor=True)
         score = float(util.cos_sim(emb[0], emb[1]))
         return score < MISMATCH_SIMILARITY_THRESHOLD, score
 
@@ -139,9 +142,7 @@ class MismatchDetector:
 
     def _rating_drop_mismatch(self, rating: int, history: list[int]) -> tuple[bool, float]:
         """Flags a sharp drop from the client's own rolling-average rating,
-        independent of barrier text. Closes the gap where a client's words
-        sound fine but their numbers tell a different story with no
-        barrier text to compare against.
+        independent of barrier text.
 
         `history` is prior ratings for this goal, oldest first, NOT
         including the current session's rating.
@@ -154,8 +155,8 @@ class MismatchDetector:
         return drop >= RATING_DROP_THRESHOLD, round(drop, 2)
 
     def _generate_explanation(self, session: dict, reasons: list[str]) -> Optional[str]:
-        if not self.use_ollama:
-            return None
+        if not self.use_ollama or not self._ollama_reachable:
+            return OLLAMA_UNAVAILABLE_NOTE if self.use_ollama else None
         prompt = (
             "You are assisting a counsellor reviewing a flagged client session. "
             "In one short sentence, explain plainly why this session was flagged "
@@ -171,14 +172,17 @@ class MismatchDetector:
             resp = requests.post(
                 OLLAMA_URL,
                 json={"model": OLLAMA_MODEL, "prompt": prompt, "stream": False},
-                timeout=15,
+                timeout=OLLAMA_TIMEOUT_SECONDS,
             )
             resp.raise_for_status()
-            return resp.json().get("response", "").strip()
-        except Exception as e:
-            # Ollama not running / model not pulled / network issue -- degrade
-            # gracefully. The flag itself is still valid without this text.
-            return f"[Explanation unavailable: {e}]"
+            return resp.json().get("response", "").strip() or None
+        except (requests.ConnectionError, requests.Timeout):
+            # Nothing listening on :11434 (Cloud), or the SLM hung.
+            self._ollama_reachable = False
+            return OLLAMA_UNAVAILABLE_NOTE
+        except Exception:
+            self._ollama_reachable = False
+            return OLLAMA_UNAVAILABLE_NOTE
 
     def check_session(self, session: dict, rating_history: Optional[list[int]] = None) -> MismatchResult:
         """
@@ -205,19 +209,7 @@ class MismatchDetector:
             reasons.append(f"rating dropped {drop_amount} points below recent average")
 
         is_flagged = len(reasons) > 0
-
-        # Severity: more independent signals agreeing, or a larger rating
-        # drop, means higher confidence this is a real mismatch worth
-        # prioritizing -- lets a counsellor triage instead of treating
-        # every flag identically (mitigates alert fatigue).
-        if not is_flagged:
-            severity = "none"
-        elif len(reasons) >= 2 or drop_amount >= 5:
-            severity = "high"
-        elif len(reasons) == 1:
-            severity = "medium"
-        else:
-            severity = "low"
+        severity = _severity(reasons, drop_amount, drop_flag)
 
         explanation = self._generate_explanation(session, reasons) if is_flagged else None
 
@@ -232,8 +224,7 @@ class MismatchDetector:
 
 
 if __name__ == "__main__":
-    # Quick manual smoke test with three example sessions
-    detector = MismatchDetector(use_ollama=True)
+    detector = MismatchDetector(use_ollama=False)
 
     example_ok = {
         "session_id": "TEST001",
@@ -248,8 +239,6 @@ if __name__ == "__main__":
         "barriers": "relapse into old coping habits under stress",
     }
     example_rating_drop = {
-        # This is the previously-missed pattern: positive text, empty
-        # barriers, but a sharp drop from the client's recent average.
         "session_id": "TEST003",
         "self_reported_rating": 2,
         "self_reported_text": "feeling much better this week",
@@ -259,10 +248,10 @@ if __name__ == "__main__":
     print("--- Clean session (no history needed) ---")
     print(json.dumps(detector.check_session(example_ok).__dict__, indent=2))
 
-    print("\n--- Text/barrier mismatch ---")
+    print("\n--- Keyword mismatch (low severity: sole keyword signal) ---")
     print(json.dumps(detector.check_session(example_mismatch).__dict__, indent=2))
 
-    print("\n--- Rating-drop mismatch (previously missed, now caught) ---")
+    print("\n--- Rating-drop mismatch (high: drop >= 5) ---")
     print(json.dumps(
         detector.check_session(example_rating_drop, rating_history=[7, 8, 7]).__dict__, indent=2
     ))

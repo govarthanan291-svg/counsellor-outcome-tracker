@@ -3,3 +3,5 @@ pandas
 altair
 sentence-transformers
 requests
+scikit-learn
+pytest
