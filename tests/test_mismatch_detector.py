@@ -289,3 +289,153 @@ class TestCheckSessionIntegration:
         assert first.explanation == md.OLLAMA_UNAVAILABLE_NOTE
         assert second.explanation == md.OLLAMA_UNAVAILABLE_NOTE
         assert det._ollama_reachable is False
+
+
+# ---------------------------------------------------------------------------
+# Input boundaries & error handling (added in the Review-2 documentation pass;
+# see docs/testing-and-error-boundaries.md for the full boundary table).
+#
+# Two kinds of test live here:
+#   * "tolerated"  -- bad-but-realistic input must NOT crash (blank cells...)
+#   * "fails loud" -- unusable input MUST raise, never silently pass, because a
+#                     silently-wrong clinical flag is worse than a visible error
+# One test is a *characterization* of a known gap (out-of-range ratings) and
+# is labelled as such so nobody mistakes it for desired behaviour.
+# ---------------------------------------------------------------------------
+
+def _session(**overrides):
+    base = {
+        "session_id": "B1",
+        "self_reported_rating": 8,
+        "self_reported_text": "feeling fine",
+        "barriers": "no barriers this session",
+    }
+    base.update(overrides)
+    return base
+
+
+class TestInputBoundaries:
+    # --- tolerated: blank / missing-value cells -------------------------
+    @pytest.mark.parametrize("blank", [float("nan"), None, "", "   "])
+    def test_blank_barriers_do_not_crash_at_high_rating(self, detector, blank):
+        # Regression: pandas reads an empty CSV cell as float NaN and
+        # NaN.lower() used to raise AttributeError when rating >= 7.
+        result = detector.check_session(_session(barriers=blank))
+        assert result.is_flagged is False
+        assert result.severity == "none"
+
+    def test_blank_self_reported_text_is_tolerated(self, detector):
+        result = detector.check_session(_session(self_reported_text=float("nan")))
+        assert result.is_flagged is False
+
+    def test_blank_barriers_still_allow_rating_drop_to_flag(self, detector):
+        # The C027 pattern (distress masked, no barrier text) must still be
+        # caught when the barrier cell is a real-world blank/NaN.
+        result = detector.check_session(
+            _session(self_reported_rating=2, barriers=float("nan")),
+            rating_history=[7, 8, 7],
+        )
+        assert result.is_flagged is True
+        assert result.severity == "high"
+
+    # --- tolerated: type / case variation --------------------------------
+    def test_numeric_string_rating_is_accepted(self, detector):
+        result = detector.check_session(_session(self_reported_rating="8", barriers="relapse"))
+        assert result.is_flagged is True
+
+    def test_keyword_match_is_case_insensitive(self, detector):
+        result = detector.check_session(_session(barriers="RELAPSE into old habits"))
+        assert result.is_flagged is True
+
+    def test_none_history_behaves_like_empty_history(self, detector):
+        s = _session(self_reported_rating=2)
+        assert detector.check_session(s, rating_history=None).is_flagged is False
+        assert detector.check_session(s, rating_history=[]).is_flagged is False
+
+    # --- fails loud: unusable input --------------------------------------
+    def test_non_numeric_rating_raises_value_error(self, detector):
+        with pytest.raises(ValueError):
+            detector.check_session(_session(self_reported_rating="eight"))
+
+    @pytest.mark.parametrize("missing", ["self_reported_rating", "self_reported_text", "barriers", "session_id"])
+    def test_missing_required_key_raises_key_error(self, detector, missing):
+        s = _session()
+        del s[missing]
+        with pytest.raises(KeyError):
+            detector.check_session(s)
+
+    # --- KNOWN GAP (characterization, not desired behaviour) -------------
+    def test_out_of_range_rating_is_currently_not_validated(self, detector):
+        # Ratings are meant to be 1-10. 15 is accepted and treated as "high".
+        # If range validation is added later, flip this test to expect a raise.
+        result = detector.check_session(_session(self_reported_rating=15, barriers="relapse"))
+        assert result.is_flagged is True
+
+
+class TestOllamaBoundaries:
+    """Every way the explanation step can fail must degrade to the fallback
+    note without touching is_flagged / severity (flagging is decided first)."""
+
+    FLAGGED = {
+        "session_id": "O1",
+        "self_reported_rating": 8,
+        "self_reported_text": "fine",
+        "barriers": "relapse",
+    }
+
+    @pytest.mark.parametrize("failure", [
+        md.requests.ConnectionError("down"),
+        md.requests.Timeout("hung"),
+        md.requests.HTTPError("500"),
+        ValueError("malformed json"),
+    ])
+    def test_any_failure_falls_back_and_keeps_the_flag(self, failure):
+        det = MismatchDetector(use_ollama=True)
+        with patch.object(md.requests, "post", side_effect=failure):
+            result = det.check_session(self.FLAGGED)
+        assert result.is_flagged is True            # decision unaffected
+        assert result.severity == "low"             # keyword-only => low
+        assert result.explanation == md.OLLAMA_UNAVAILABLE_NOTE
+        assert det._ollama_reachable is False       # latch flipped
+
+    def test_http_error_status_from_a_live_server_also_falls_back(self):
+        det = MismatchDetector(use_ollama=True)
+        resp = MagicMock()
+        resp.raise_for_status.side_effect = md.requests.HTTPError("404 model not found")
+        with patch.object(md.requests, "post", return_value=resp):
+            result = det.check_session(self.FLAGGED)
+        assert result.explanation == md.OLLAMA_UNAVAILABLE_NOTE
+
+    def test_empty_model_response_yields_none_not_blank_string(self):
+        det = MismatchDetector(use_ollama=True)
+        resp = MagicMock()
+        resp.json.return_value = {"response": "   "}
+        with patch.object(md.requests, "post", return_value=resp):
+            result = det.check_session(self.FLAGGED)
+        assert result.explanation is None
+
+    def test_successful_explanation_is_returned_and_latch_stays_open(self):
+        det = MismatchDetector(use_ollama=True)
+        resp = MagicMock()
+        resp.json.return_value = {"response": " Rating is high but a relapse is noted. "}
+        with patch.object(md.requests, "post", return_value=resp):
+            result = det.check_session(self.FLAGGED)
+        assert result.explanation == "Rating is high but a relapse is noted."
+        assert det._ollama_reachable is True
+
+    def test_blank_barriers_never_reach_the_prompt_as_the_word_nan(self):
+        det = MismatchDetector(use_ollama=True)
+        resp = MagicMock()
+        resp.json.return_value = {"response": "ok"}
+        s = {**self.FLAGGED, "self_reported_rating": 2, "barriers": float("nan")}
+        with patch.object(md.requests, "post", return_value=resp) as post:
+            det.check_session(s, rating_history=[7, 8, 7])
+        prompt = post.call_args.kwargs["json"]["prompt"]
+        assert "nan" not in prompt.lower()
+
+    def test_unflagged_session_never_calls_ollama(self):
+        det = MismatchDetector(use_ollama=True)
+        with patch.object(md.requests, "post") as post:
+            result = det.check_session(_session())
+        post.assert_not_called()
+        assert result.explanation is None
